@@ -22,14 +22,18 @@ h6 {
     color: #fff !important;
 }
 
+.container {
+    /* padding-right: 70px !important;
+    padding-left: 70px !important; */
+}
+
 nav {
     top: 0;
     position: sticky !important;
     background-color: transparent;
     transition: 0.5s ease;
-    z-index: 1;
+    z-index: 100;
     height: 80px;
-    z-index: 10000;
 }
 
 .scrolled {
@@ -99,6 +103,7 @@ nav li a:hover {
     /* bottom: 0;
     position: absolute; */
 }
+
 .home-page .hs-item-title {
     position: absolute;
     color: #fff;
@@ -106,6 +111,60 @@ nav li a:hover {
     font-weight: 700;
     text-align: center;
     letter-spacing: 1px;
+}
+
+.scrolldown {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    transform: translateY(-80px) translateX(-50%) rotate(45deg);
+}
+
+.scrolldown span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-bottom: 2px solid #fff;
+    border-right: 2px solid #fff;
+    animation: animate 1.5s linear infinite;
+    opacity: 0;
+}
+
+.scrolldown span:nth-child(1) {
+    transform: translate(-15px, -15px);
+    animation-delay: -0.4s;
+}
+.scrolldown span:nth-child(2) {
+    transform: translate(0, 0);
+    animation-delay: -0.2s;
+}
+.scrolldown span:nth-child(3) {
+    transform: translate(15px, 15px);
+    animation-delay: 0s;
+}
+
+@keyframes animate {
+    0% {
+        top: -5px;
+        left: -5px;
+        opacity: 0;
+    }
+    25% {
+        top: 0;
+        left: 0;
+        opacity: 1;
+    }
+    50%,
+    100% {
+        top: 5px;
+        left: 5px;
+        opacity: 0;
+    }
 }
 
 .message-info {
@@ -190,6 +249,37 @@ nav li a:hover {
 p {
     margin: 0 !important;
     color: #bfbfbf;
+}
+
+input[type="radio"] {
+    --s: 1em; /* control the size */
+    --c: #009688; /* the active color */
+
+    height: var(--s);
+    aspect-ratio: 1;
+    border: calc(var(--s) / 8) solid #939393;
+    padding: calc(var(--s) / 8);
+    background: radial-gradient(farthest-side, var(--c) 94%, #0000) 50%/0 0 no-repeat content-box;
+    border-radius: 50%;
+    outline-offset: calc(var(--s) / 10);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    font-size: inherit;
+    transition: 0.3s;
+    margin-right: 10px;
+}
+
+input[type="radio"]:checked {
+    border-color: var(--c);
+    background-size: 100% 100%;
+}
+
+input[type="radio"]:disabled {
+    background: linear-gradient(#939393 0 0) 50%/100% 20% no-repeat content-box;
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .quantity {

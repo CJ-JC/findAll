@@ -27,7 +27,14 @@ const Modalopen = ({ product }) => {
                 <Box sx={style}>
                     <h3 className="text-center">{product.title}</h3>
                     <hr />
-                    <h5>Prix : {product.price}€</h5>
+                    {product.options.map((option) => (
+                        <div key={option.id}>
+                            <p>
+                                {option.option_name} - {option.option_price}€
+                            </p>
+                        </div>
+                    ))}
+                    <br />
                     <h5>Abonnement pour : 12 mois</h5>
                     <div className="description-wrapper">
                         <p>{product.description}</p>

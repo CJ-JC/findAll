@@ -5,6 +5,7 @@ import Create from "./components/Create";
 import HomeAdmin from "./components/Admin/HomeAdmin";
 import UpdateAdmin from "./components/Admin/UpdateAdmin";
 import Navbar from "./components/Navbar";
+import Login from "./components/Login/Login";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Route path="/home/admin" element={<HomeAdmin />} />
                     <Route path="/create" element={<Create />} />
                     <Route path="/update/admin/:id" element={<UpdateAdmin />} />
+                    <Route path="/admin/login" element={<Login />} />
                 </Routes>
             </BrowserRouter>
         </>

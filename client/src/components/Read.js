@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import CheckoutForm from "./stripe/CheckoutForm";
 
@@ -19,6 +19,16 @@ const style = {
 const Read = ({ product }) => {
     const [open, setOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [defaultOption, setDefaultOption] = useState(null);
+
+    useEffect(() => {
+        // Si le produit a des options, définissez l'ID de la première option comme option sélectionnée par défaut
+        if (product.options.length > 0) {
+            setDefaultOption(product.options[0].id);
+            setSelectedOptions([product.options[0].id]);
+        }
+    }, [product]);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -28,10 +38,28 @@ const Read = ({ product }) => {
         setQuantity(newQuantity);
     };
 
-    const totalPrice = product.price * quantity;
+    const handleOptionChange = (optionId) => {
+        let updatedOptions = [];
+
+        // Si l'option actuelle est déjà sélectionnée, désélectionnez-la
+        if (selectedOptions.includes(optionId)) {
+            updatedOptions = selectedOptions.filter((id) => id !== optionId);
+        } else {
+            // Sinon, sélectionnez uniquement l'option actuelle
+            updatedOptions = [optionId];
+        }
+
+        setSelectedOptions(updatedOptions);
+    };
+
+    // Trouver l'option sélectionnée
+    const selectedOption = product.options.find((option) => selectedOptions.includes(option.id));
+
+    // Calculer le prix total en fonction de la quantité et de l'option sélectionnée
+    const totalPrice = (selectedOption ? selectedOption.option_price : product.price) * quantity;
 
     return (
-        <div className="container text-center">
+        <div className="text-center">
             <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
                 <Box sx={style}>
                     <div className="row">
@@ -46,6 +74,16 @@ const Read = ({ product }) => {
                                 <p>{product.description}</p>
                             </div>
                             <br />
+                            <h6>Type d'abonnement :</h6>
+                            {product.options.map((option) => (
+                                <div key={option.id}>
+                                    <label>
+                                        <input type="radio" value={option.id} checked={selectedOptions.includes(option.id)} onChange={() => handleOptionChange(option.id)} disabled={product.options.length === 1} />
+                                        {option.option_name} - {option.option_price}€
+                                    </label>
+                                </div>
+                            ))}
+                            <br />
                             <h6>Quantité</h6>
                             <div className="quantity">
                                 <button className="minus" onClick={() => updateQuantity(-1)}>
@@ -57,7 +95,7 @@ const Read = ({ product }) => {
                                 </button>
                             </div>
                         </div>
-                        <CheckoutForm product={product} totalPrice={totalPrice} />
+                        <CheckoutForm product={product} totalPrice={totalPrice} selectedOptions={selectedOptions} />
                     </div>
                 </Box>
             </Modal>

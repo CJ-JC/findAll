@@ -85,6 +85,11 @@ const Home = () => {
 
                 {/* <img src="../img/home.jpg" alt="" /> */}
                 <Carousel />
+                <div className="scrolldown">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
             <div className="container" style={{ marginTop: "6em" }}>
                 <div className="message-info">
@@ -92,7 +97,7 @@ const Home = () => {
                         <span style={{ color: "#fff", fontWeight: 400 }}>
                             Il se peut que notre site soit bloqué 🚫 en France !<br />
                             Utilisez un VPN ou changez vos DNS pour ne plus être bloqué par vos FAI »
-                        </span>{" "}
+                        </span>
                         <a href="https://changetondns.fr/" style={{ color: "#fff", fontWeight: 400 }} rel="noreferrer" target="_blank">
                             comment changer mes DNS ?
                         </a>
@@ -111,12 +116,17 @@ const Home = () => {
                 <div className="row my-2">
                     {products.map((product) => (
                         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 my-3 list_product px-0" key={product.id}>
-                            <div className="card ">
+                            <div className="card">
                                 <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
                                 <div className="card-body">
                                     <h6 className="card-title">{product.title}</h6>
-                                    <p className="card-text">Abonnement pour : 12 mois</p>
-                                    <h6 className="card-text">{product.price}€</h6>
+                                    {product.options.map((option) => (
+                                        <div key={option.id}>
+                                            <p>{option.option_price}€</p>
+                                        </div>
+                                    ))}
+                                    <p className="card-text">S'abonner pour : 12 mois</p>
+                                    {/* <h6 className="card-text">{product.options[0].option_price} 0€</h6> */}
                                     <Read product={product} />
                                 </div>
                             </div>
@@ -124,7 +134,7 @@ const Home = () => {
                     ))}
                 </div>
             </div>
-            <div className="container my-5 contact">
+            <div className="container contact my-5">
                 {/* <h1 className="text-center">Nous contactez</h1> */}
                 <h2>
                     Contactez notre équipe, <br /> on est plus réactif qu'un skip sur une pub !

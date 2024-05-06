@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Modalopen from "../Modal/Modal";
 import Create from "../Create";
+import Footer from "../Footer";
 
 const style = {
     position: "absolute",
@@ -51,7 +52,7 @@ const HomeAdmin = () => {
                     <Create handleClose={handleClose} handleOpen={handleOpen} open={open} setOpen={setOpen} style={style} />
                 </div>
                 <hr className="text-light w-75 mx-auto" />
-                <div className="row">
+                <div className="row justify-content-center">
                     {products.map((product) => (
                         <div className="col-xl-3 col-lg-3 col-md-4 col-sm-12 my-3 px-0 list_product" key={product.id}>
                             <div className="card" style={{ height: "280px" }}>
@@ -82,13 +83,14 @@ const HomeAdmin = () => {
                                 </div>
                                 <div className="card-body">
                                     <h6 className="card-title">{product.title}</h6>
-                                    <h6>{product.price}€</h6>
+                                    <h6>0€</h6>
                                 </div>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
+            <Footer />
         </>
     );
 };

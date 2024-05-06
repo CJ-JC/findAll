@@ -228,9 +228,9 @@ app.put("/update/:id", upload.single("image"), (req, res) => {
                             // L'option existe déjà, récupérer son ID
                             optionId = optionResult[0].id;
 
-                            // Mettre à jour l'option
-                            const updateOptionSql = "UPDATE type SET option_price = ? WHERE id = ?";
-                            const updateOptionValues = [option_price, optionId];
+                            // Mettre à jour l'option (nom et prix)
+                            const updateOptionSql = "UPDATE type SET option_name = ?, option_price = ? WHERE id = ?";
+                            const updateOptionValues = [option_name, option_price, optionId];
 
                             db.query(updateOptionSql, updateOptionValues, (updateErr, updateResult) => {
                                 if (updateErr) {
@@ -332,7 +332,7 @@ app.delete("/delete/:id", (req, res) => {
 });
 
 app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"), async (req, res) => {
-    const { product, totalPrice, selectedOptions } = req.body;
+    const { product, totalPrice } = req.body;
     const id = req.params.id;
 
     const session = await stripe.checkout.sessions.create({
@@ -344,7 +344,7 @@ app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"
                     product_data: {
                         name: product.title,
                     },
-                    unit_amount: totalPrice * 100,
+                    unit_amount: Math.round(totalPrice * 100),
                 },
                 quantity: 1,
             },
@@ -354,6 +354,66 @@ app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"
         cancel_url: "http://localhost:3000",
     });
     res.json({ id: session.id });
+});
+
+const jwt = require("jsonwebtoken");
+
+// Middleware pour vérifier le token JWT
+const verifyToken = (req, res, next) => {
+    const token = req.headers["authorization"];
+
+    if (!token) {
+        return res.status(403).json({ message: "No token provided" });
+    }
+
+    // Vérifier le token
+    jwt.verify(token, "secret_key", (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: "Failed to authenticate token" });
+        }
+        req.email = decoded.email;
+        next();
+    });
+};
+
+// Générer un token JWT lors de la connexion réussie
+app.post("/login", (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    const sql = "SELECT * FROM login WHERE email = ? AND password = ?";
+    const values = [email, password];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            return res.json({ Message: "Error" });
+        }
+
+        if (result.length === 0) {
+            return res.json({ Message: "Wrong email or password" });
+        }
+
+        // Utiliser jwt.sign() pour créer un token avec l'identifiant de l'utilisateur
+        const token = jwt.sign({ email: email }, "secret_key");
+
+        // Envoyer le token en réponse
+        return res.json({ Message: "Success", token: token });
+    });
+});
+
+// Endpoint pour la déconnexion
+app.post("/logout", (req, res) => {
+    res.json({ Message: "Logged out successfully" });
+});
+
+app.get("/protected-route", verifyToken, (req, res) => {
+    // Si le token est valide, vous pouvez utiliser req.email pour accéder à l'adresse e-mail de l'utilisateur
+    res.json({ message: "Access granted", email: req.email });
+});
+
+// Endpoint pour la déconnexion
+app.post("/logout", (req, res) => {
+    res.json({ Message: "Logged out successfully" });
 });
 
 app.listen(port, (req, res) => {

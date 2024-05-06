@@ -16,12 +16,12 @@ const Footer = () => {
                             <i className="icon ion-social-twitter"></i>
                         </a>
                         <a href="#">
-                            <i className="icon ion-social-facebook"></i>
+                            <i className="fa fa-paper-plane"></i>
                         </a>
                     </div>
                     <ul className="list-inline">
                         <li className="list-inline-item">
-                            <a href="#">Home</a>
+                            <a href="/">Home</a>
                         </li>
                         <li className="list-inline-item">
                             <a href="#">Services</a>
@@ -36,7 +36,7 @@ const Footer = () => {
                             <a href="#">Privacy Policy</a>
                         </li>
                     </ul>
-                    <p className="copyright">Company Name © 2024</p>
+                    <p className="copyright">ÉcoTunes © 2024</p>
                 </footer>
             </div>
         </div>

@@ -11,7 +11,6 @@ const style = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "70%",
-    // bgcolor: "rgb(24, 29, 45)",
     bgcolor: "rgb(17 20 29)",
     boxShadow: 24,
     color: "white",
@@ -68,7 +67,6 @@ const HomeAdmin = () => {
                                                     <path d="m19.4 7.337-2.74-2.74a2 2 0 0 0-2.66-.07l-9 9a2 2 0 0 0-.57 1.21L4 18.907a1 1 0 0 0 1 1.09h.09l4.17-.38a2 2 0 0 0 1.21-.57l9-9a1.92 1.92 0 0 0-.07-2.71ZM9.08 17.617l-3 .28.27-3L12 9.317l2.7 2.7-5.62 5.6Zm6.92-6.94-2.68-2.68 1.95-2L18 8.727l-2 1.95Z"></path>
                                                 </svg>
                                             </Link>
-                                            {/* <UpdateAdmin produit={product} handleClose={handleClose} handleOpen={handleOpen} open={open} style={style} /> */}
                                         </div>
                                         <div className="col-4">
                                             <Link className="btn btn-danger d-inline-flex align-items-center" onClick={() => handleDelete(product.id)}>
@@ -83,7 +81,11 @@ const HomeAdmin = () => {
                                 </div>
                                 <div className="card-body">
                                     <h6 className="card-title">{product.title}</h6>
-                                    <h6>0€</h6>
+                                    {product.options.length > 0 && (
+                                        <div>
+                                            <h6 className="card-text">{product.options[0].option_price}€</h6>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

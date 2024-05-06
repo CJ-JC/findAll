@@ -4,6 +4,27 @@ import "owl.carousel/dist/assets/owl.carousel.css";
 import "owl.carousel/dist/assets/owl.theme.default.css";
 
 const Carousel = () => {
+    const images = [
+        // {
+        //     img: "../img/home.jpg",
+        // },
+        {
+            img: "../img/bg-disney.avif",
+        },
+        {
+            img: "../img/bg-hbo.jpeg",
+        },
+        {
+            img: "../img/bg-netflix.jpeg",
+        },
+        {
+            img: "../img/bg-tidal.jpeg",
+        },
+        {
+            img: "../img/bg-amazon.png",
+        },
+    ];
+
     const [options, setOptions] = useState({
         loop: true,
         items: 1,
@@ -17,36 +38,13 @@ const Carousel = () => {
         animateOut: "fadeOut",
     });
 
-    useEffect(
-        () => {
-            // Code pour récupérer les données ou les effets secondaires
-            // que vous aviez dans UNSAFE_componentWillReceiveProps
-        },
-        [
-            /* Les dépendances à surveiller pour déclencher cette mise à jour */
-        ]
-    );
-
     return (
         <OwlCarousel className="owl-theme" {...options}>
-            {/* <div className="item">
-                <img src="../img/home.jpg" alt="" />
-            </div> */}
-            <div className="item">
-                <img src="../img/bg-disney.avif" alt="" />
-            </div>
-            <div className="item">
-                <img src="../img/bg-hbo.jpeg" alt="" />
-            </div>
-            <div className="item">
-                <img src="../img/bg-netflix.jpeg" alt="" />
-            </div>
-            <div className="item">
-                <img src="../img/bg-tidal.jpeg" alt="" />
-            </div>
-            <div className="item">
-                <img src="../img/bg-amazon.png" alt="" />
-            </div>
+            {images.map((image, index) => (
+                <div className="item" key={index}>
+                    <img src={image.img} alt="" />
+                </div>
+            ))}
         </OwlCarousel>
     );
 };

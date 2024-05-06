@@ -23,7 +23,6 @@ const Read = ({ product }) => {
     const [defaultOption, setDefaultOption] = useState(null);
 
     useEffect(() => {
-        // Si le produit a des options, définissez l'ID de la première option comme option sélectionnée par défaut
         if (product.options.length > 0) {
             setDefaultOption(product.options[0].id);
             setSelectedOptions([product.options[0].id]);
@@ -74,7 +73,7 @@ const Read = ({ product }) => {
                                 <p>{product.description}</p>
                             </div>
                             <br />
-                            <h6>Type d'abonnement :</h6>
+                            <h6>Type de compte :</h6>
                             {product.options.map((option) => (
                                 <div key={option.id}>
                                     <label>

@@ -1,10 +1,10 @@
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
-export default function CheckoutForm({ product, totalPrice, selectedOptions }) {
+export default function CheckoutForm({ product, totalPrice }) {
     const makePayment = async () => {
         const stripe = await loadStripe("pk_test_51Js9DlAyX4TjGLxtV7XzCNGGCRF4k4MzjJ8m41jxEY5Z72RS9MT8vBjNyzGl7ZPdT6Gx9EFTO8LF659AAElk2FvQ00WFkCH1Pg");
-        const body = { product, totalPrice, selectedOptions };
+        const body = { product, totalPrice };
         const headers = {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,

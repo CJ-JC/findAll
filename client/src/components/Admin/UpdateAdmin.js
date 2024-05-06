@@ -29,7 +29,7 @@ const UpdateAdmin = () => {
                             description: result.data[0].description,
                             image: result.data[0].image,
                             options: optionsResult.data,
-                            totalOptions: optionsResult.data.length, // Mise à jour du nombre total d'options
+                            totalOptions: optionsResult.data.length,
                         });
                     })
                     .catch((optionsErr) => console.log(optionsErr));
@@ -80,35 +80,8 @@ const UpdateAdmin = () => {
         }
     };
 
-    // const handleRemoveOption = async (index, optionId) => {
-    //     try {
-    //         // Suppression de l'option en envoyant une requête DELETE
-    //         await axios.delete(`http://localhost:8000/type/${optionId}`);
-
-    //         // Mettre à jour l'état pour refléter les modifications
-    //         const newOptions = [...product.options];
-    //         newOptions.splice(index, 1);
-    //         setProduct({ ...product, options: newOptions });
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
-    // const handleRemoveOption = async (index, optionId) => {
-    //     try {
-    //         // Suppression de l'option de la table product_type
-    //         await axios.delete(`http://localhost:8000/delete/${id}/${optionId}`);
-
-    //         // Mettre à jour l'état pour refléter les modifications
-    //         const newOptions = product.options.filter((option) => option.id !== optionId);
-    //         setProduct({ ...product, options: newOptions });
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
     return (
-        <div className="container">
+        <div className="container my-5">
             <div className="card p-5">
                 <form onSubmit={handleSubmit}>
                     <h1 className="text-center">Modifier le produit</h1>
@@ -125,17 +98,12 @@ const UpdateAdmin = () => {
                     </div>
                     {product.options.map((option, index) => (
                         <div className="row justify-content-center px-0" key={index}>
-                            <div className="col-6 my-3">
+                            <div className="col-lg-6 col-md-6 col-sm-12 my-3">
                                 <label htmlFor={`option_name_${index}`}>Option {index + 1} - Nom</label>
                                 <input id={`option_name_${index}`} className="form-control" required type="text" value={option.option_name} onChange={(e) => handleOptionChange(e, index)} name="option_name" placeholder={`Nom de l'option ${index + 1}`} />
-                                <div className="input-group-append">
-                                    <i className="fa fa-trash text-danger" aria-hidden="true"></i>
-                                    {/* <button className="btn btn-danger" type="button" onClick={() => handleRemoveOption(index)}>
-                                        Supprimer
-                                    </button> */}
-                                </div>
+                                {/* <i className="fa fa-trash" aria-hidden="true" onClick={() => handleRemoveOption(index)}></i> */}
                             </div>
-                            <div className="col-6 my-3">
+                            <div className="col-lg-6 col-md-6 col-sm-12 my-3">
                                 <label htmlFor={`option_price_${index}`}>Option {index + 1} - Prix</label>
                                 <input id={`option_price_${index}`} className="form-control" required type="number" value={option.option_price} onChange={(e) => handleOptionChange(e, index)} name="option_price" placeholder={`Prix de l'option ${index + 1}`} />
                             </div>

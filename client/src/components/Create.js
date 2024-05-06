@@ -81,11 +81,11 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
                             {options.map((option, index) => (
                                 <div className="row px-0" key={index}>
                                     <div className="col-lg-6 col-md-12 my-3">
-                                        <label htmlFor="option_name">Nom de l'option</label>
+                                        <label htmlFor={`${option.option_name}`}>Nom de l'option</label>
                                         <input className="form-control" type="text" onChange={(e) => handleOptionChange(e, index)} name={`option_name_${index}`} placeholder="Nom de l'option" />
                                     </div>
                                     <div className="col-lg-6 col-md-12 my-3">
-                                        <label htmlFor="option_price">Prix de l'option</label>
+                                        <label htmlFor={`${option.option_price}`}>Prix de l'option</label>
                                         <input className="form-control" type="text" onChange={(e) => handleOptionChange(e, index)} name={`option_price_${index}`} placeholder="Prix de l'option" />
                                     </div>
                                 </div>

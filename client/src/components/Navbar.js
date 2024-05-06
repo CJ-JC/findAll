@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
+    const navigate = useNavigate();
+
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
@@ -17,11 +19,19 @@ const Navbar = () => {
         };
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        // Mettre à jour l'état pour indiquer que l'utilisateur n'est plus connecté
+        setIsLoggedIn(false);
+        navigate("/");
+        window.location.reload();
+    };
+
     return (
         <nav className={`navbar navbar-expand-lg p-0 ${scrolled ? "scrolled" : ""}`}>
             <div className="container">
                 <NavLink className="navbar-brand" to="/">
-                    Stream XYZ
+                    ÉcoTunes
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -29,20 +39,29 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ms-auto">
                         <li className="nav-item">
-                            <NavLink className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`} to="/">
+                            <NavLink className="nav-link" to="/">
                                 Accueil
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`} to="/contact">
+                            <NavLink className="nav-link" to="/contact">
                                 Contact
                             </NavLink>
                         </li>
-                        <li className="nav-item">
-                            <NavLink className={`nav-link ${({ isActive }) => (isActive ? "active" : "")}`} to="/home/admin">
-                                Admin
-                            </NavLink>
-                        </li>
+                        {isLoggedIn && (
+                            <>
+                                <li className="nav-item">
+                                    <NavLink className="nav-link" to="/home/admin">
+                                        Admin
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <button className="btn btn-danger" onClick={handleLogout}>
+                                        Déconnexion
+                                    </button>
+                                </li>
+                            </>
+                        )}
                     </ul>
                 </div>
             </div>

@@ -43,7 +43,7 @@ nav {
 
 nav .navbar-brand {
     color: #fff !important;
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bold;
 }
 
@@ -64,9 +64,8 @@ nav li a:hover {
     color: #000 !important;
 }
 
-.navbar-nav .nav-link.active {
-    background-color: #fff;
-    color: #000 !important;
+.logout {
+    color: #fff !important;
 }
 
 .home-page {
@@ -316,7 +315,6 @@ input[type="radio"]:disabled {
     background-color: #c4c4c4;
 }
 
-/* Hide the number input spin buttons */
 .input-box::-webkit-inner-spin-button,
 .input-box::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -328,19 +326,18 @@ input[type="radio"]:disabled {
 }
 
 .feedback-input {
+    outline: 0;
+    width: 100%;
+    padding: 13px;
     color: white;
     font-weight: 500;
-    /* font-size: 18px; */
-    border-radius: 5px;
     line-height: 22px;
-    background-color: transparent;
-    border: 2px solid #bfbfbf;
-    transition: all 0.3s;
-    padding: 13px;
+    border-radius: 5px;
     margin-bottom: 15px;
-    width: 100%;
+    transition: all 0.3s;
     box-sizing: border-box;
-    outline: 0;
+    border: 2px solid #bfbfbf;
+    background-color: transparent;
 }
 
 .feedback-input:focus {
@@ -355,6 +352,19 @@ textarea {
     height: 150px;
     line-height: 150%;
     resize: vertical;
+}
+
+.fa-trash {
+    background-color: crimson;
+    padding: 8px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.5s;
+}
+
+.fa-trash:hover {
+    background-color: rgb(136, 0, 27);
 }
 
 .error {

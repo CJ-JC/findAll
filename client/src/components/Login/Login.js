@@ -1,20 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ setIsLoggedIn }) => {
+    const navigate = useNavigate();
+
+    const [values, setValues] = useState({
+        email: "",
+        password: "",
+    });
+
+    const baseUrl = "http://localhost:8000";
+
+    const handleChange = (e) => {
+        setValues({ ...values, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios
+            .post(`${baseUrl}/login`, values)
+            .then((response) => {
+                localStorage.setItem("token", response.data.token);
+                setIsLoggedIn(true);
+                navigate("/home/admin");
+            })
+            .catch((error) => console.log(error));
+    };
+
     return (
-        <div className="container">
-            <form>
-                <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Email address</label>
-                    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+        <form className="container my-5" onSubmit={handleSubmit}>
+            <div className="row justify-content-center">
+                <div className="col-md-8 col-lg-6 col-xl-4 mb-5">
+                    <div className="card p-5">
+                        <div className="form-group mb-4">
+                            <label htmlFor="email">Email</label>
+                            <input type="email" name="email" className="form-control" placeholder="Email" onChange={handleChange} id="email" />
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="password">Mot de passe</label>
+                            <input type="password" name="password" className="form-control" placeholder="Mot de passe" onChange={handleChange} id="password" />
+                        </div>
+                        <button className="btn btn-light w-auto m-auto">Se connecter</button>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="exampleInputPassword1">Password</label>
-                    <input type="password" className="form-control" id="exampleInputPassword1" aria-describedby="emailHelp" />
-                </div>
-                <button className="btn btn-success">Connexion</button>
-            </form>
-        </div>
+            </div>
+        </form>
     );
 };
 

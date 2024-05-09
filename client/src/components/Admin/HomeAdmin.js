@@ -86,6 +86,14 @@ const HomeAdmin = () => {
                                             <h6 className="card-text">{product.options[0].option_price}€</h6>
                                         </div>
                                     )}
+                                    {product.real_price > 0 && (
+                                        <div>
+                                            <p>soit {product.price_per_month}€ / mois</p>
+                                            <p>
+                                                {product.real_price}€ sur {product.title}
+                                            </p>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

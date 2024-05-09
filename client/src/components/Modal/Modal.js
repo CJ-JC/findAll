@@ -34,6 +34,10 @@ const Modalopen = ({ product }) => {
                             </p>
                         </div>
                     ))}
+                    <p>{product.price_per_month}€ / mois</p>
+                    <p>
+                        {product.real_price}€ sur {product.title}
+                    </p>
                     <br />
                     <h5>Abonnement pour : 12 mois</h5>
                     <div className="description-wrapper">

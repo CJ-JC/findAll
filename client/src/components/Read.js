@@ -33,7 +33,7 @@ const Read = ({ product }) => {
     const handleClose = () => setOpen(false);
 
     const updateQuantity = (amount) => {
-        const newQuantity = Math.max(1, quantity + amount);
+        const newQuantity = Math.min(10, Math.max(1, quantity + amount));
         setQuantity(newQuantity);
     };
 
@@ -55,7 +55,8 @@ const Read = ({ product }) => {
     const selectedOption = product.options.find((option) => selectedOptions.includes(option.id));
 
     // Calculer le prix total en fonction de la quantité et de l'option sélectionnée
-    const totalPrice = (selectedOption ? selectedOption.option_price : product.price) * quantity;
+    // const totalPrice = (selectedOption ? selectedOption.option_price : product.price) * quantity;
+    const totalPrice = parseFloat(((selectedOption ? selectedOption.option_price : product.price) * quantity).toFixed(2));
 
     return (
         <div className="text-center">
@@ -76,7 +77,7 @@ const Read = ({ product }) => {
                             <h6>Type de compte :</h6>
                             {product.options.map((option) => (
                                 <div key={option.id}>
-                                    <label>
+                                    <label className="d-flex align-items-center">
                                         <input type="radio" value={option.id} checked={selectedOptions.includes(option.id)} onChange={() => handleOptionChange(option.id)} disabled={product.options.length === 1} />
                                         {option.option_name} - {option.option_price}€
                                     </label>

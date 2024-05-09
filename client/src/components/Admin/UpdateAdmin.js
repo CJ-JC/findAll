@@ -9,9 +9,11 @@ const UpdateAdmin = () => {
     const [product, setProduct] = useState({
         title: "",
         description: "",
+        real_price: "",
+        price_per_month: "",
         image: null,
         options: [],
-        totalOptions: 0, // Ajout du nombre total d'options
+        totalOptions: 0,
     });
 
     const [image, setImage] = useState(null);
@@ -26,6 +28,8 @@ const UpdateAdmin = () => {
                         setProduct({
                             ...product,
                             title: result.data[0].title,
+                            real_price: result.data[0].real_price,
+                            price_per_month: result.data[0].price_per_month,
                             description: result.data[0].description,
                             image: result.data[0].image,
                             options: optionsResult.data,
@@ -64,6 +68,8 @@ const UpdateAdmin = () => {
         const formData = new FormData();
 
         formData.append("title", product.title);
+        formData.append("real_price", product.real_price);
+        formData.append("price_per_month", product.price_per_month);
         formData.append("description", product.description);
         formData.append("image", image);
 
@@ -84,7 +90,7 @@ const UpdateAdmin = () => {
         <div className="container my-5">
             <div className="card p-5">
                 <form onSubmit={handleSubmit}>
-                    <h1 className="text-center">Modifier le produit</h1>
+                    <h1 className="text-center">Modifier {product.title}</h1>
                     <hr />
                     <div className="row justify-content-center">
                         <div className="col-6 my-3">
@@ -95,13 +101,20 @@ const UpdateAdmin = () => {
                             <label htmlFor="image">Image du produit</label>
                             <input id="image" className="form-control" type="file" onChange={handleImageChange} name="image" placeholder="Image du produit" />
                         </div>
+                        <div className="col-lg-6 col-md-12 my-3">
+                            <label htmlFor="price_per_month">Prix par mois</label>
+                            <input id="price_per_month" className="form-control" type="text" value={product.price_per_month} onChange={handleChange} name="price_per_month" placeholder="Titre du produit" />
+                        </div>
+                        <div className="col-lg-6 col-md-12 my-3">
+                            <label htmlFor="real_price">Vrai prix</label>
+                            <input id="real_price" className="form-control" type="text" value={product.real_price} onChange={handleChange} name="real_price" placeholder="Titre du produit" />
+                        </div>
                     </div>
                     {product.options.map((option, index) => (
                         <div className="row justify-content-center px-0" key={index}>
                             <div className="col-lg-6 col-md-6 col-sm-12 my-3">
                                 <label htmlFor={`option_name_${index}`}>Option {index + 1} - Nom</label>
                                 <input id={`option_name_${index}`} className="form-control" required type="text" value={option.option_name} onChange={(e) => handleOptionChange(e, index)} name="option_name" placeholder={`Nom de l'option ${index + 1}`} />
-                                {/* <i className="fa fa-trash" aria-hidden="true" onClick={() => handleRemoveOption(index)}></i> */}
                             </div>
                             <div className="col-lg-6 col-md-6 col-sm-12 my-3">
                                 <label htmlFor={`option_price_${index}`}>Option {index + 1} - Prix</label>
@@ -109,6 +122,11 @@ const UpdateAdmin = () => {
                             </div>
                         </div>
                     ))}
+                    <div className="col-12 my-3">
+                        <label htmlFor="description">Description</label>
+                        <textarea id="description" className="form-control" type="text" value={product.description} onChange={handleChange} name="description" placeholder="Description" />
+                    </div>
+
                     <div className="col-12 my-3">
                         <button type="button" className="btn btn-secondary" onClick={handleAddOption}>
                             Ajouter une option

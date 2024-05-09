@@ -5,6 +5,8 @@ import { Box, Modal } from "@mui/material";
 const Create = ({ handleClose, handleOpen, open, style }) => {
     const [product, setProduct] = useState({
         title: "",
+        real_price: "",
+        price_per_month: "",
         description: "",
         image: null,
     });
@@ -39,6 +41,8 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
         const formData = new FormData();
 
         formData.append("title", product.title);
+        formData.append("real_price", product.real_price);
+        formData.append("price_per_month", product.price_per_month);
         formData.append("description", product.description);
         formData.append("image", image);
 
@@ -76,6 +80,14 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
                             <div className="col-lg-12 col-md-12 my-3">
                                 <label htmlFor="description">Description</label>
                                 <textarea id="description" className="form-control" required type="text" onChange={handleChange} name="description" placeholder="Description du produit" />
+                            </div>
+                            <div className="col-lg-6 col-md-12 my-3">
+                                <label htmlFor="price_per_month">Prix par mois</label>
+                                <input id="price_per_month" className="form-control" type="text" onChange={handleChange} name="price_per_month" placeholder="Titre du produit" />
+                            </div>
+                            <div className="col-lg-6 col-md-12 my-3">
+                                <label htmlFor="real_price">Vrai prix</label>
+                                <input id="real_price" className="form-control" type="text" onChange={handleChange} name="real_price" placeholder="Titre du produit" />
                             </div>
 
                             {options.map((option, index) => (

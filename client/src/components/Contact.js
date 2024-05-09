@@ -28,13 +28,13 @@ const Contact = ({ handleSubmit, handleChange, alertMessage }) => {
                         {alertMessage && <div className="text-danger">{alertMessage}</div>}
                     </div>
                     <div className="col-lg-12">
-                        <FormControl id="text">
+                        <FormControl id="message">
                             <FormLabel>Message*</FormLabel>
-                            <Textarea name="message" id="message" onChange={handleChange} className={`feedback-input`} placeholder="Entrez votre message ici..." />
+                            <Textarea name="message" id="message" onChange={handleChange} className={`feedback-input`} placeholder="Écrivez votre message ici..." />
                         </FormControl>
                         {alertMessage && <div className="text-danger">{alertMessage}</div>}
                     </div>
-                    <button className="btn btn-light w-100">Envoyer</button>
+                    <button className="btn btn-light">Envoyer</button>
                 </div>
             </form>
         </>

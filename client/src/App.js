@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
@@ -7,6 +7,7 @@ import HomeAdmin from "./components/Admin/HomeAdmin";
 import UpdateAdmin from "./components/Admin/UpdateAdmin";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login/Login";
+import Success from "./components/Success";
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,11 +18,14 @@ const App = () => {
         setIsLoggedIn(!!token); // !! converts token to boolean
     }, []);
 
+    const paragraphRef = useRef(null);
+
     return (
         <BrowserRouter>
-            <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+            <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} paragraphRef={paragraphRef} />
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Home paragraphRef={paragraphRef} />} />
+                <Route path="/success/:id" element={<Success />} />
                 <Route path="/home/admin" element={isLoggedIn ? <HomeAdmin /> : <Navigate to="/" />} />
                 <Route path="/create" element={isLoggedIn ? <Create /> : <Navigate to="/" />} />
                 <Route path="/update/admin/:id" element={isLoggedIn ? <UpdateAdmin /> : <Navigate to="/" />} />

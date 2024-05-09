@@ -454,8 +454,6 @@ app.get("/success/:id", async (req, res) => {
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log("Erreur lors de l'envoi de l'email :", error);
-                // Si une erreur se produit, annulez le marquage de l'e-mail comme envoyé
-                delete emailsSent[userEmail];
             } else {
                 console.log("Email envoyé :", info.response);
             }

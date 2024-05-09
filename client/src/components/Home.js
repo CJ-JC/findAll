@@ -128,9 +128,7 @@ const Home = ({ paragraphRef }) => {
                                         <div>
                                             <p>soit {product.price_per_month}€ / mois</p>
                                             <strike>
-                                                <p>
-                                                    {product.real_price}€ sur {product.title}
-                                                </p>
+                                                <p>{product.real_price}</p>
                                             </strike>
                                         </div>
                                     )}

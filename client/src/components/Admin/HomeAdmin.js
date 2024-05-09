@@ -26,8 +26,6 @@ const HomeAdmin = () => {
 
     const [open, setOpen] = useState(false);
 
-    const { id } = useParams();
-
     useEffect(() => {
         axios
             .get("http://localhost:8000/")
@@ -89,9 +87,7 @@ const HomeAdmin = () => {
                                     {product.real_price > 0 && (
                                         <div>
                                             <p>soit {product.price_per_month}€ / mois</p>
-                                            <p>
-                                                {product.real_price}€ sur {product.title}
-                                            </p>
+                                            <p>{product.real_price}</p>
                                         </div>
                                     )}
                                 </div>

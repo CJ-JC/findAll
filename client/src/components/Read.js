@@ -1,36 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { Box, Modal } from "@mui/material";
 import CheckoutForm from "./stripe/CheckoutForm";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import Contact from "./Contact";
+import Footer from "./Footer";
+import Politique from "./Politique";
 
-const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: "70%",
-    // bgcolor: "rgb(24, 29, 45)",
-    bgcolor: "rgb(17 20 29)",
-    boxShadow: 24,
-    color: "white",
-    border: "1px solid #bfbfbf",
-    p: 4,
-};
-
-const Read = ({ product }) => {
+const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
     const [open, setOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [defaultOption, setDefaultOption] = useState(null);
+    const [product, setProduct] = useState(null);
+
+    const { id } = useParams();
+
+    const baseUrl = "http://localhost:8000";
 
     useEffect(() => {
-        if (product.options.length > 0) {
-            setDefaultOption(product.options[0].id);
-            setSelectedOptions([product.options[0].id]);
-        }
-    }, [product]);
-
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+        axios
+            .get(`${baseUrl}/product/${id}`)
+            .then((result) => {
+                setProduct(result.data[0]);
+                if (result.data[0].options.length > 0) {
+                    setDefaultOption(result.data[0].options[0].id);
+                    setSelectedOptions([result.data[0].options[0].id]);
+                }
+            })
+            .catch((err) => setProduct(err));
+    }, [id]);
 
     const updateQuantity = (amount) => {
         const newQuantity = Math.min(10, Math.max(1, quantity + amount));
@@ -40,69 +38,86 @@ const Read = ({ product }) => {
     const handleOptionChange = (optionId) => {
         let updatedOptions = [];
 
-        // Si l'option actuelle est déjà sélectionnée, désélectionnez-la
         if (selectedOptions.includes(optionId)) {
             updatedOptions = selectedOptions.filter((id) => id !== optionId);
         } else {
-            // Sinon, sélectionnez uniquement l'option actuelle
             updatedOptions = [optionId];
         }
 
         setSelectedOptions(updatedOptions);
     };
 
-    // Trouver l'option sélectionnée
-    const selectedOption = product.options.find((option) => selectedOptions.includes(option.id));
+    if (!product) {
+        return <div>Chargement...</div>;
+    }
 
-    // Calculer le prix total en fonction de la quantité et de l'option sélectionnée
-    // const totalPrice = (selectedOption ? selectedOption.option_price : product.price) * quantity;
+    const selectedOption = product.options?.find((option) => selectedOptions.includes(option.id));
+
     const totalPrice = parseFloat(((selectedOption ? selectedOption.option_price : product.price) * quantity).toFixed(2));
 
     return (
-        <div className="text-center">
-            <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
-                <Box sx={style}>
-                    <div className="row">
-                        <h3 className="text-center">{product.title}</h3>
-                        <hr />
-                        <div className="col-xl-4 col-lg-4 col-md-3 d-flex align-items-center">
-                            <img src={`http://localhost:8000/upload/${product.image}`} alt={product.image} style={{ width: "100%" }} />
-                        </div>
-                        <div className="col-xl-8 col-lg-8 col-md-9 my-2">
-                            <h5>Abonnement pour : 12 mois</h5>
-                            <div className="description-wrapper">
-                                <p>{product.description}</p>
-                            </div>
+        <>
+            <div className="container mt-5">
+                <div className="row">
+                    <div className="col-lg-8">
+                        <div className="card p-4">
+                            <h2>{product.title}</h2>
+
+                            <img src={`http://localhost:8000/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "80%", objectFit: "cover", height: "100%" }} />
+                            <p>{product.description}</p>
                             <br />
-                            <h6>Type de compte :</h6>
-                            {product.options.map((option) => (
-                                <div key={option.id}>
-                                    <label className="d-flex align-items-center">
-                                        <input type="radio" value={option.id} checked={selectedOptions.includes(option.id)} onChange={() => handleOptionChange(option.id)} disabled={product.options.length === 1} />
-                                        {option.option_name} - {option.option_price}€
-                                    </label>
-                                </div>
-                            ))}
-                            <br />
-                            <h6>Quantité</h6>
-                            <div className="quantity">
-                                <button className="minus" onClick={() => updateQuantity(-1)}>
-                                    -
-                                </button>
-                                <h6 className="mb-0 quantity-number">{quantity}</h6>
-                                <button className="plus" onClick={() => updateQuantity(1)}>
-                                    +
-                                </button>
-                            </div>
+                            <h6>Garantie 1 mois. En cas de problème dans un délai d'un mois, vous recevrez un remplacement gratuit.</h6>
                         </div>
-                        <CheckoutForm product={product} totalPrice={totalPrice} selectedOptions={selectedOptions} />
+                        <div className="card my-4 p-4">
+                            <h6>Politique</h6>
+                            <Politique />
+                            <a href="https://t.me/ecotunes" target="_blank" className="telegram" title="Telegram">
+                                <i className="fa fa-paper-plane text-light"></i>
+                            </a>
+                        </div>
                     </div>
-                </Box>
-            </Modal>
-            <button className="mt-3 btn btn-light w-auto fw-light" onClick={handleOpen}>
-                En savoir plus
-            </button>
-        </div>
+                    <div className="col-lg-4">
+                        <h6>Type de compte :</h6>
+                        {product.options.map((option) => (
+                            <label className={`product mx-0 mb-3 p-3 d-flex align-items-center ${selectedOptions.includes(option.id) ? "selected" : ""}`} key={option.id}>
+                                <input type="radio" value={option.id} checked={selectedOptions.includes(option.id)} onChange={() => handleOptionChange(option.id)} disabled={product.options.length === 1} />
+                                {option.option_name} - {option.option_price}€
+                            </label>
+                        ))}
+                        <div className="card mx-0 mb-3 p-3">
+                            <div className="content">
+                                <h6>Délai de livraison</h6>
+                                Dans les 2h
+                            </div>
+                            <div className="content">
+                                <h6>Quantité</h6>
+                                <div className="quantity">
+                                    <button className="minus" onClick={() => updateQuantity(-1)}>
+                                        -
+                                    </button>
+                                    <h6 className="mb-0 quantity-number">{quantity}</h6>
+                                    <button className="plus" onClick={() => updateQuantity(1)}>
+                                        +
+                                    </button>
+                                </div>
+                            </div>
+                            <CheckoutForm product={product} totalPrice={totalPrice} selectedOptions={selectedOptions} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="container contact my-5" ref={paragraphRef}>
+                <h2>Contactez notre équipe</h2>
+                <div className="card p-4 my-2">
+                    <div className="row align-items-center justify-content-center">
+                        <div className="col-lg-6 col-md-6 col-sm-12 my-2 mx-0">
+                            <Contact handleChange={handleChange} handleSubmit={handleSubmit} alertMessage={alertMessage} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Footer />
+        </>
     );
 };
 

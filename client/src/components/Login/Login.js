@@ -10,6 +10,8 @@ const Login = ({ setIsLoggedIn }) => {
         password: "",
     });
 
+    const [error, setError] = useState("");
+
     const baseUrl = "http://localhost:8000";
 
     const handleChange = (e) => {
@@ -25,13 +27,16 @@ const Login = ({ setIsLoggedIn }) => {
                 setIsLoggedIn(true);
                 navigate("/home/admin");
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                setError("Email ou mot de passe incorrect.");
+            });
     };
 
     return (
         <form className="container my-5" onSubmit={handleSubmit}>
             <div className="row justify-content-center">
                 <div className="col-md-8 col-lg-6 col-xl-4 mb-5">
+                    {error && <div className="alert alert-danger">{error}</div>}
                     <div className="card p-5">
                         <div className="form-group mb-4">
                             <label htmlFor="email">Email</label>

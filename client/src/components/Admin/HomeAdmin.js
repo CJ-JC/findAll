@@ -84,11 +84,13 @@ const HomeAdmin = () => {
                                             <h6 className="card-text">{product.options[0].option_price}€</h6>
                                         </div>
                                     )}
-                                    {product.real_price > 0 && (
+                                    {product.real_price ? (
                                         <div>
-                                            <p>soit {product.price_per_month}€ / mois</p>
-                                            <p>{product.real_price}</p>
+                                            <p className="m-0">soit {product.price_per_month}€ / mois</p>
+                                            <p className="m-0">{product.real_price}</p>
                                         </div>
+                                    ) : (
+                                        <p className="m-0">soit {product.price_per_month}€ / mois</p>
                                     )}
                                 </div>
                             </div>

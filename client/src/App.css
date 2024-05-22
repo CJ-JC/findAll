@@ -253,7 +253,7 @@ nav li a:hover {
 }
 
 p {
-    margin: 0 !important;
+    /* margin: 0 !important; */
     color: #bfbfbf;
 }
 
@@ -288,6 +288,33 @@ input[type="radio"]:disabled {
     cursor: not-allowed;
 }
 
+label.product {
+    border: 1px solid;
+    border-radius: 30px;
+}
+
+label.product.selected {
+    border: 2px solid #009688;
+    border-radius: 30px;
+}
+
+.content h6 {
+    color: #bfbfbf !important;
+}
+
+ol li {
+    color: #fff;
+    margin: 0.5em 0;
+}
+
+.content {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    margin: 0.5em 0;
+    color: #fff;
+}
+
 .quantity {
     display: flex;
     justify-content: space-between;
@@ -298,28 +325,21 @@ input[type="radio"]:disabled {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.quantity {
-    border: 1px solid;
-}
-
 .quantity button {
-    background-color: #fff;
-    color: #000;
+    background-color: #4b4c4d;
+    border-radius: 30px;
+    color: #fff;
     border: none;
-    cursor: pointer;
     font-size: 20px;
     width: 30px;
     height: auto;
     text-align: center;
-    transition: background-color 0.2s;
+    transition: 0.5s ease;
 }
 
-/* .quantity-number {
-    border: 1px solid;
-} */
-
 .quantity button:hover {
-    background-color: #c4c4c4;
+    background-color: #fff;
+    color: #000;
 }
 
 .input-box::-webkit-inner-spin-button,

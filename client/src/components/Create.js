@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Box, Modal } from "@mui/material";
+import { Navigate } from "react-router-dom";
 
 const Create = ({ handleClose, handleOpen, open, style }) => {
     const [product, setProduct] = useState({
@@ -77,10 +78,6 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
                                 <label htmlFor="image">Image du produit</label>
                                 <input id="image" className="form-control" required type="file" onChange={handleImageChange} name="image" placeholder="Image du produit" />
                             </div>
-                            <div className="col-lg-12 col-md-12 my-3">
-                                <label htmlFor="description">Description</label>
-                                <textarea id="description" className="form-control" required type="text" onChange={handleChange} name="description" placeholder="Description du produit" />
-                            </div>
                             <div className="col-lg-6 col-md-12 my-3">
                                 <label htmlFor="price_per_month">Prix par mois</label>
                                 <input id="price_per_month" className="form-control" type="text" onChange={handleChange} name="price_per_month" placeholder="Titre du produit" />
@@ -102,6 +99,10 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
                                     </div>
                                 </div>
                             ))}
+                            <div className="col-lg-12 col-md-12 my-3">
+                                <label htmlFor="description">Description</label>
+                                <textarea id="description" className="form-control" required type="text" onChange={handleChange} name="description" placeholder="Description du produit" />
+                            </div>
                             <div className="col-12 my-3">
                                 <button type="button" className="btn btn-secondary" onClick={handleAddOption}>
                                     Ajouter une option

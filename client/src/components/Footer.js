@@ -24,16 +24,10 @@ const Footer = () => {
                             <a href="/">Home</a>
                         </li>
                         <li className="list-inline-item">
-                            <a href="#">Services</a>
-                        </li>
-                        <li className="list-inline-item">
                             <a href="#">About</a>
                         </li>
                         <li className="list-inline-item">
-                            <a href="#">Terms</a>
-                        </li>
-                        <li className="list-inline-item">
-                            <a href="#">Privacy Policy</a>
+                            <a href="/politique">Conditions</a>
                         </li>
                     </ul>
                     <p className="copyright">ÉcoTunes © 2024</p>

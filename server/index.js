@@ -5,6 +5,7 @@ const env = require("dotenv");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const bcrypt = require("bcrypt");
 const stripe = require("stripe")("sk_test_51Js9DlAyX4TjGLxtmuUeqjjAF2KU4OqeSOnMWdxlcztKt9EGznhefcAu29JddGvjdSUhVHTr3MM6D4dsRkiPZzop003jVRBV7E");
 const emailRoutes = require("./routes/emailRoutes");
 
@@ -316,31 +317,6 @@ app.delete("/delete/:id", (req, res) => {
     });
 });
 
-// app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"), async (req, res) => {
-//     const { product, totalPrice } = req.body;
-//     const id = req.params.id;
-
-//     const session = await stripe.checkout.sessions.create({
-//         payment_method_types: ["card"],
-//         line_items: [
-//             {
-//                 price_data: {
-//                     currency: "eur",
-//                     product_data: {
-//                         name: product.title,
-//                     },
-//                     unit_amount: Math.round(totalPrice * 100),
-//                 },
-//                 quantity: 1,
-//             },
-//         ],
-//         mode: "payment",
-//         success_url: "http://localhost:3000/success/" + id,
-//         cancel_url: "http://localhost:3000",
-//     });
-//     res.json({ id: session.id });
-// });
-
 const nodemailer = require("nodemailer");
 
 async function createStripeCustomer(email, name) {
@@ -387,7 +363,7 @@ app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"
             ],
             mode: "payment",
             success_url: `http://localhost:3000/success/{CHECKOUT_SESSION_ID}`,
-            cancel_url: "http://localhost:3000",
+            cancel_url: "http://localhost:3000/",
         });
 
         res.json({ id: session.id });
@@ -395,6 +371,38 @@ app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"
         console.error("Une erreur s'est produite lors de la création de la session de paiement :", err);
         res.status(500).send("Une erreur s'est produite lors de la création de la session de paiement.");
     }
+});
+
+app.get("/product/:id", (req, res) => {
+    const sql = "SELECT * FROM product WHERE id =?";
+    const id = req.params.id;
+    db.query(sql, [id], (err, products) => {
+        if (err) {
+            return res.json({ Message: "Error" });
+        }
+
+        // Récupérer les options pour chaque produit
+        const productsWithOptions = products.map(async (product) => {
+            const optionsSql = "SELECT * FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
+            const optionsValues = [product.id];
+
+            const options = await new Promise((resolve, reject) => {
+                db.query(optionsSql, optionsValues, (err, options) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(options);
+                    }
+                });
+            });
+
+            return { ...product, options };
+        });
+
+        Promise.all(productsWithOptions)
+            .then((result) => res.json(result))
+            .catch((err) => res.json({ Message: "Error fetching options", Error: err }));
+    });
 });
 
 var smtpTransport = require("nodemailer-smtp-transport");
@@ -496,18 +504,18 @@ app.post("/login", (req, res) => {
 
     db.query(sql, values, (err, result) => {
         if (err) {
-            return res.json({ Message: "Error" });
+            return res.status(500).json({ message: "Internal Server Error" });
         }
 
         if (result.length === 0) {
-            return res.json({ Message: "Wrong email or password" });
+            return res.status(401).json({ message: "Unauthorized: Wrong email or password" });
         }
 
         // Utiliser jwt.sign() pour créer un token avec l'identifiant de l'utilisateur
         const token = jwt.sign({ email: email }, "secret_key");
 
         // Envoyer le token en réponse
-        return res.json({ Message: "Success", token: token });
+        return res.json({ message: "Success", token: token });
     });
 });
 

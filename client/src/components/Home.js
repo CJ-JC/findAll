@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import axios from "axios";
 import Read from "./Read";
@@ -6,9 +7,9 @@ import Footer from "./Footer";
 import Carousel from "./Carousel";
 import Contact from "./Contact";
 
-const Home = ({ paragraphRef }) => {
+const Home = ({ paragraphRef, handleChange, handleSubmit, alertMessage }) => {
     const [products, setProducts] = useState([]);
-    const [alertMessage, setAlertMessage] = useState("");
+
     const baseUrl = "http://localhost:8000";
 
     useEffect(() => {
@@ -17,59 +18,6 @@ const Home = ({ paragraphRef }) => {
             .then((result) => setProducts(result.data))
             .catch((err) => setProducts(err));
     }, []);
-
-    const [mailer, setMailer] = useState({
-        pseudo: "",
-        subject: "",
-        email: "",
-        message: "",
-    });
-
-    const handleChange = (e) => {
-        setMailer({ ...mailer, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        if (mailer.pseudo.trim() === "" || mailer.email.trim() === "" || mailer.subject.trim() === "" || mailer.message.trim() === "") {
-            if (mailer.pseudo.trim() === "") {
-                document.getElementById("pseudo").classList.add("error");
-            } else {
-                document.getElementById("pseudo").classList.remove("error");
-            }
-            if (mailer.email.trim() === "") {
-                document.getElementById("email").classList.add("error");
-            } else {
-                document.getElementById("email").classList.remove("error");
-            }
-            if (mailer.subject.trim() === "") {
-                document.getElementById("subject").classList.add("error");
-            } else {
-                document.getElementById("subject").classList.remove("error");
-            }
-            if (mailer.message.trim() === "") {
-                document.getElementById("message").classList.add("error");
-            } else {
-                document.getElementById("message").classList.remove("error");
-            }
-            return;
-        }
-
-        try {
-            const res = await axios.post(`${baseUrl}/email/sendEmail`, mailer, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            setAlertMessage("Votre message a été envoyé avec succès !");
-
-            setMailer("");
-        } catch (error) {
-            console.error("Erreur lors de l'envoi de l'email :", error);
-        }
-    };
 
     return (
         <>
@@ -124,15 +72,19 @@ const Home = ({ paragraphRef }) => {
                                             <h6 className="card-text">{product.options[0].option_price}€</h6>
                                         </div>
                                     )}
-                                    {product.real_price > 0 && (
+                                    {product.real_price ? (
                                         <div>
-                                            <p>soit {product.price_per_month}€ / mois</p>
+                                            <p className="m-0">soit {product.price_per_month}€ / mois</p>
                                             <strike>
-                                                <p>{product.real_price}</p>
+                                                {product.real_price}€ sur {product.title}
                                             </strike>
                                         </div>
+                                    ) : (
+                                        <p className="m-0">soit {product.price_per_month}€ / mois</p>
                                     )}
-                                    <Read product={product} />
+                                    <Link to={`/product/${product.id}`} className="my-2 d-block btn btn-light">
+                                        En savoir plus
+                                    </Link>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +101,7 @@ const Home = ({ paragraphRef }) => {
                     </div>
                 </div>
             </div>
-            <a href="#" className="telegram">
+            <a href="https://t.me/ecotunes" target="_blank" className="telegram" title="Telegram">
                 <i className="fa fa-paper-plane text-light"></i>
             </a>
             <Footer />

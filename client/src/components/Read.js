@@ -69,7 +69,6 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                             <h6>Garantie 1 mois. En cas de problème dans un délai d'un mois, vous recevrez un remplacement gratuit.</h6>
                         </div>
                         <div className="card my-4 p-4">
-                            <h6>Politique</h6>
                             <Politique />
                             <a href="https://t.me/ecotunes" target="_blank" className="telegram" title="Telegram">
                                 <i className="fa fa-paper-plane text-light"></i>

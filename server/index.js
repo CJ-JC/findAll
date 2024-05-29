@@ -5,7 +5,7 @@ const env = require("dotenv");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const stripe = require("stripe")("sk_test_51Js9DlAyX4TjGLxtmuUeqjjAF2KU4OqeSOnMWdxlcztKt9EGznhefcAu29JddGvjdSUhVHTr3MM6D4dsRkiPZzop003jVRBV7E");
 const emailRoutes = require("./routes/emailRoutes");
 
@@ -476,57 +476,36 @@ app.get("/success/:id", async (req, res) => {
 
 const jwt = require("jsonwebtoken");
 
-// Middleware pour vérifier le token JWT
-const verifyToken = (req, res, next) => {
-    const token = req.headers["authorization"];
-
-    if (!token) {
-        return res.status(403).json({ message: "No token provided" });
-    }
-
-    // Vérifier le token
-    jwt.verify(token, "secret_key", (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ message: "Failed to authenticate token" });
-        }
-        req.email = decoded.email;
-        next();
-    });
-};
-
 // Générer un token JWT lors de la connexion réussie
 app.post("/login", (req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-
-    const sql = "SELECT * FROM login WHERE email = ? AND password = ?";
-    const values = [email, password];
+    const sql = "SELECT * FROM login WHERE email =?";
+    const values = [req.body.email];
 
     db.query(sql, values, (err, result) => {
         if (err) {
-            return res.status(500).json({ message: "Internal Server Error" });
+            return res.json(err);
         }
 
-        if (result.length === 0) {
-            return res.status(401).json({ message: "Unauthorized: Wrong email or password" });
+        if (!result.length) {
+            return res.status(401).json("Aucun utilisateur ne correspond à ce compte.");
         }
 
-        // Utiliser jwt.sign() pour créer un token avec l'identifiant de l'utilisateur
-        const token = jwt.sign({ email: email }, "secret_key");
+        const passwordIsValid = bcrypt.compareSync(req.body.password, result[0].password);
+
+        if (!passwordIsValid) {
+            return res.status(401).json("Email ou mot de passe incorrect");
+        }
+        // Créer un token avec l'email de l'utilisateur
+        const token = jwt.sign({ email: req.body.email }, "secret_key", { expiresIn: "1h" });
 
         // Envoyer le token en réponse
-        return res.json({ message: "Success", token: token });
+        return res.json({ message: "Connexion réussie", token: token });
     });
 });
 
 // Endpoint pour la déconnexion
 app.post("/logout", (req, res) => {
     res.json({ Message: "Logged out successfully" });
-});
-
-app.get("/protected-route", verifyToken, (req, res) => {
-    // Si le token est valide, vous pouvez utiliser req.email pour accéder à l'adresse e-mail de l'utilisateur
-    res.json({ message: "Access granted", email: req.email });
 });
 
 app.listen(port, (req, res) => {

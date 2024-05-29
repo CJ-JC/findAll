@@ -5,7 +5,7 @@ const Politique = () => {
     return (
         <>
             <div className="container my-5">
-                <h1>Conditions d'utilisation</h1>
+                <h3>Conditions d'utilisation</h3>
                 <ol>
                     <li>🛒 Veuillez lire nos conditions d'utilisation et nos FAQ avant d'acheter.</li>
                     <li>📚 Conditions d'utilisation</li>

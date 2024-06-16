@@ -8,8 +8,7 @@ const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const stripe = require("stripe")("sk_test_51Js9DlAyX4TjGLxtmuUeqjjAF2KU4OqeSOnMWdxlcztKt9EGznhefcAu29JddGvjdSUhVHTr3MM6D4dsRkiPZzop003jVRBV7E");
 const emailRoutes = require("./routes/emailRoutes");
-
-env.config();
+const nodemailer = require("nodemailer");
 
 const app = express();
 app.use(express.json());
@@ -317,8 +316,6 @@ app.delete("/delete/:id", (req, res) => {
     });
 });
 
-const nodemailer = require("nodemailer");
-
 async function createStripeCustomer(email, name) {
     try {
         const customer = await stripe.customers.create({
@@ -368,7 +365,6 @@ app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"
 
         res.json({ id: session.id });
     } catch (err) {
-        console.error("Une erreur s'est produite lors de la création de la session de paiement :", err);
         res.status(500).send("Une erreur s'est produite lors de la création de la session de paiement.");
     }
 });

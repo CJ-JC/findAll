@@ -5,6 +5,7 @@ import axios from "axios";
 import Contact from "./Contact";
 import Footer from "./Footer";
 import Politique from "./Politique";
+import Paypal from "./Paypal";
 
 const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
     const [open, setOpen] = useState(false);
@@ -12,6 +13,8 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [defaultOption, setDefaultOption] = useState(null);
     const [product, setProduct] = useState(null);
+
+    const [checkout, setCheckOut] = useState(false);
 
     const { id } = useParams();
 
@@ -67,6 +70,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                             <p>{product.description}</p>
                             <br />
                             <h6>Garantie 1 mois. En cas de problème dans un délai d'un mois, vous recevrez un remplacement gratuit.</h6>
+                            <p className="card-text">Tous nos services sont valables 12 mois</p>
                         </div>
                         <div className="card my-4 p-4">
                             <Politique />
@@ -100,7 +104,20 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                                     </button>
                                 </div>
                             </div>
-                            <CheckoutForm product={product} totalPrice={totalPrice} selectedOptions={selectedOptions} />
+                            {/* <CheckoutForm product={product} totalPrice={totalPrice} selectedOptions={selectedOptions} /> */}
+
+                            {checkout ? (
+                                <Paypal key={`${product.id}-${totalPrice}`} product={product} totalPrice={totalPrice} />
+                            ) : (
+                                <button
+                                    className="btn btn-light fw-bold w-auto mt-4 mx-auto"
+                                    onClick={() => {
+                                        setCheckOut(true);
+                                    }}
+                                >
+                                    Payer {totalPrice}€
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>

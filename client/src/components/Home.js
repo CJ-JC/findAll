@@ -6,11 +6,12 @@ import Read from "./Read";
 import Footer from "./Footer";
 import Carousel from "./Carousel";
 import Contact from "./Contact";
+import Select from "react-select";
 
 const Home = ({ paragraphRef, handleChange, handleSubmit, alertMessage }) => {
     const [products, setProducts] = useState([]);
 
-    const baseUrl = "http://localhost:8000";
+    const baseUrl = `http://localhost:8000`;
 
     useEffect(() => {
         axios
@@ -18,6 +19,12 @@ const Home = ({ paragraphRef, handleChange, handleSubmit, alertMessage }) => {
             .then((result) => setProducts(result.data))
             .catch((err) => setProducts(err));
     }, []);
+
+    // const options = [
+    //     { value: "Tout", label: "Tout" },
+    //     { value: "Divertissement", label: "Divertissement" },
+    //     { value: "Logiciel", label: "Logiciel" },
+    // ];
 
     return (
         <>
@@ -59,33 +66,36 @@ const Home = ({ paragraphRef, handleChange, handleSubmit, alertMessage }) => {
                     <p>De Spotify à YouTube Premium en passant par Netflix et bien d'autres encore, nous avons rassemblé pour vous les meilleurs abonnements à des tarifs imbattables.</p>
                     <p>Fini les compromis entre qualité et prix, avec nous, vous pouvez tout avoir, et à moindre coût !</p>
                 </div>
+                {/* <div className="col-lg-2">
+                    <label>Type de produit :</label>
+                    <Select options={options} />
+                </div> */}
                 <div className="row my-2 justify-content-center">
                     {products.map((product) => (
                         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 my-3 list_product px-0" key={product.id}>
                             <div className="card">
-                                <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
-                                <div className="card-body">
-                                    <h6 className="card-title">{product.title}</h6>
-                                    {/* <p className="card-text">Valable : 1 an</p> */}
-                                    {product.options.length > 0 && (
-                                        <div>
-                                            <h6 className="card-text">{product.options[0].option_price}€</h6>
-                                        </div>
-                                    )}
-                                    {product.real_price ? (
-                                        <div>
+                                <a href={`/product/${product.id}`}>
+                                    <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
+                                    <div className="card-body">
+                                        <h6 className="card-title">{product.title}</h6>
+                                        {/* <p className="card-text">Valable : 1 an</p> */}
+                                        {product.options.length > 0 && (
+                                            <div>
+                                                <h6 className="card-text">{product.options[0].option_price}€</h6>
+                                            </div>
+                                        )}
+                                        {product.real_price ? (
+                                            <div>
+                                                <p className="m-0">soit {product.price_per_month}€ / mois</p>
+                                                <strike>
+                                                    {product.real_price}€ sur {product.title}
+                                                </strike>
+                                            </div>
+                                        ) : (
                                             <p className="m-0">soit {product.price_per_month}€ / mois</p>
-                                            <strike>
-                                                {product.real_price}€ sur {product.title}
-                                            </strike>
-                                        </div>
-                                    ) : (
-                                        <p className="m-0">soit {product.price_per_month}€ / mois</p>
-                                    )}
-                                    <Link to={`/product/${product.id}`} className="my-2 d-block btn btn-light">
-                                        En savoir plus
-                                    </Link>
-                                </div>
+                                        )}
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     ))}

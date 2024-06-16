@@ -22,6 +22,10 @@ h6 {
     color: #fff !important;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 .container {
     /* padding-right: 70px !important;
     padding-left: 70px !important; */
@@ -257,6 +261,41 @@ p {
     color: #bfbfbf;
 }
 
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+}
+
+.filters li {
+    list-style-type: none;
+    align-items: center;
+    border-radius: 5px;
+    display: flex;
+    overflow: hidden;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+.filters li:hover {
+    border: 2px solid #4361ee;
+    color: #4361ee;
+    cursor: pointer;
+}
+
+.filters li label {
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+}
+
+.filters li input {
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
 input[type="radio"] {
     --s: 1em; /* control the size */
     --c: #009688; /* the active color */
@@ -291,6 +330,7 @@ input[type="radio"]:disabled {
 label.product {
     border: 1px solid;
     border-radius: 30px;
+    cursor: pointer;
 }
 
 label.product.selected {

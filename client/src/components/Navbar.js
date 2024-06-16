@@ -8,7 +8,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, paragraphRef }) => {
 
     useEffect(() => {
         const handleScroll = () => {
-            const isScrolled = window.scrollY > 100;
+            const isScrolled = window.scrollY > 50;
             setScrolled(isScrolled);
         };
 

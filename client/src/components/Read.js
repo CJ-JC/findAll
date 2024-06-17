@@ -107,7 +107,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                             {/* <CheckoutForm product={product} totalPrice={totalPrice} selectedOptions={selectedOptions} /> */}
 
                             {checkout ? (
-                                <Paypal key={`${product.id}-${totalPrice}`} product={product} totalPrice={totalPrice} />
+                                <Paypal key={`${product.id}-${totalPrice}`} product={product} totalPrice={totalPrice} quantity={quantity} selectedOptions={selectedOptions} />
                             ) : (
                                 <button
                                     className="btn btn-light fw-bold w-auto mt-4 mx-auto"

@@ -10,11 +10,6 @@ const Success = () => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        axios
-            .get(`http://localhost:8000/success/${id}`)
-            .then((result) => setMessage(result.data.message))
-            .catch((err) => setMessage(err));
-
         setTimeout(() => {
             navigate("/");
         }, 5000);

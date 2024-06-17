@@ -9,12 +9,15 @@ const bcrypt = require("bcryptjs");
 const stripe = require("stripe")("sk_test_51Js9DlAyX4TjGLxtmuUeqjjAF2KU4OqeSOnMWdxlcztKt9EGznhefcAu29JddGvjdSUhVHTr3MM6D4dsRkiPZzop003jVRBV7E");
 const emailRoutes = require("./routes/emailRoutes");
 const nodemailer = require("nodemailer");
+const bodyParser = require("body-parser");
+const smtpTransport = require("nodemailer-smtp-transport");
 
 const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 app.use(cors());
 env.config();
+app.use(bodyParser.json());
 
 const corsOptions = {
     origin: "*",
@@ -316,58 +319,58 @@ app.delete("/delete/:id", (req, res) => {
     });
 });
 
-async function createStripeCustomer(email, name) {
-    try {
-        const customer = await stripe.customers.create({
-            email: email,
-            name: name,
-        });
-        return customer;
-    } catch (err) {
-        console.error(err);
-        return null;
-    }
-}
+// async function createStripeCustomer(email, name) {
+//     try {
+//         const customer = await stripe.customers.create({
+//             email: email,
+//             name: name,
+//         });
+//         return customer;
+//     } catch (err) {
+//         console.error(err);
+//         return null;
+//     }
+// }
 
-app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"), async (req, res) => {
-    const { email, name, product, totalPrice } = req.body;
+// app.post("/api/create-checkout-session", cors("Access-Control-Allow-Origin", "*"), async (req, res) => {
+//     const { email, name, product, totalPrice } = req.body;
 
-    // Créer le client Stripe
-    const customer = await createStripeCustomer(email, name);
+//     // Créer le client Stripe
+//     const customer = await createStripeCustomer(email, name);
 
-    if (!customer) {
-        return res.status(500).send("Une erreur s'est produite lors de la création du client Stripe.");
-    }
+//     if (!customer) {
+//         return res.status(500).send("Une erreur s'est produite lors de la création du client Stripe.");
+//     }
 
-    const stripeCustomerId = customer.id;
-    const id = product.id;
+//     const stripeCustomerId = customer.id;
+//     const id = product.id;
 
-    try {
-        const session = await stripe.checkout.sessions.create({
-            customer: stripeCustomerId,
-            payment_method_types: ["card"],
-            line_items: [
-                {
-                    price_data: {
-                        currency: "eur",
-                        product_data: {
-                            name: product.title,
-                        },
-                        unit_amount: Math.round(totalPrice * 100),
-                    },
-                    quantity: 1,
-                },
-            ],
-            mode: "payment",
-            success_url: `http://localhost:3000/success/{CHECKOUT_SESSION_ID}`,
-            cancel_url: "http://localhost:3000/",
-        });
+//     try {
+//         const session = await stripe.checkout.sessions.create({
+//             customer: stripeCustomerId,
+//             payment_method_types: ["card"],
+//             line_items: [
+//                 {
+//                     price_data: {
+//                         currency: "eur",
+//                         product_data: {
+//                             name: product.title,
+//                         },
+//                         unit_amount: Math.round(totalPrice * 100),
+//                     },
+//                     quantity: 1,
+//                 },
+//             ],
+//             mode: "payment",
+//             success_url: `http://localhost:3000/success/{CHECKOUT_SESSION_ID}`,
+//             cancel_url: "http://localhost:3000/",
+//         });
 
-        res.json({ id: session.id });
-    } catch (err) {
-        res.status(500).send("Une erreur s'est produite lors de la création de la session de paiement.");
-    }
-});
+//         res.json({ id: session.id });
+//     } catch (err) {
+//         res.status(500).send("Une erreur s'est produite lors de la création de la session de paiement.");
+//     }
+// });
 
 app.get("/product/:id", (req, res) => {
     const sql = "SELECT * FROM product WHERE id =?";
@@ -401,23 +404,11 @@ app.get("/product/:id", (req, res) => {
     });
 });
 
-var smtpTransport = require("nodemailer-smtp-transport");
-
 let emailsSent = {};
-app.get("/success/:id", async (req, res) => {
-    const { id } = req.params;
-
+app.post("/success/payment", async (req, res) => {
     try {
-        // Récupérez la session de paiement à partir de l'ID
-        const session = await stripe.checkout.sessions.retrieve(id);
-
-        // Vérifiez si la session est active
-        if (session.payment_status !== "paid") {
-            throw new Error("La session de paiement n'a pas été payée.");
-        }
-
-        // Récupérez les détails de facturation de la session
-        const userEmail = session.customer_details.email;
+        const userEmail = req.body.email;
+        console.log("Email reçu du client :", userEmail);
 
         // Vérifiez si le courriel a déjà été envoyé
         if (emailsSent[userEmail]) {
@@ -469,6 +460,73 @@ app.get("/success/:id", async (req, res) => {
         res.status(500).send("Une erreur s'est produite lors de l'envoi de l'e-mail.");
     }
 });
+
+// stripe
+// app.get("/success/:id", async (req, res) => {
+//     const { id } = req.params;
+
+//     try {
+//         // Récupérez la session de paiement à partir de l'ID
+//         const session = await stripe.checkout.sessions.retrieve(id);
+
+//         // Vérifiez si la session est active
+//         if (session.payment_status !== "paid") {
+//             throw new Error("La session de paiement n'a pas été payée.");
+//         }
+
+//         // Récupérez les détails de facturation de la session
+//         const userEmail = session.customer_details.email;
+
+//         // Vérifiez si le courriel a déjà été envoyé
+//         if (emailsSent[userEmail]) {
+//             return res.json({ message: "Le courriel a déjà été envoyé." });
+//         }
+
+//         // Marquez l'e-mail comme envoyé
+//         emailsSent[userEmail] = true;
+
+//         // Envoyer un e-mail au client
+//         const transporter = nodemailer.createTransport(
+//             // Configurer le transporteur SMTP ou un autre service de messagerie pris en charge
+//             smtpTransport({
+//                 service: "gmail",
+//                 host: process.env.SMTP_HOST,
+//                 port: process.env.SMTP_PORT,
+//                 auth: {
+//                     user: "cjmafia29@gmail.com",
+//                     pass: "garkflvsnpfabmbe",
+//                 },
+//             })
+//         );
+
+//         const mailOptions = {
+//             from: "cjmfia29@gmail.com",
+//             to: userEmail,
+//             subject: "Confirmation de paiement",
+//             html: `
+//             <p>Bonjour,</p>
+//             <p>Nous tenons à vous informer que votre paiement a été effectué avec succès. Nous reviendrons vers vous au plus vite</p>
+//             <p>Merci d'avoir choisi notre service !</p>
+//             <p>Si vous avez des questions ou avez besoin d'assistance, n'hésitez pas à nous contacter.</p>
+//             <p>Cordialement,</p>
+//             <p>Votre équipe ÉcoTunes</p>
+//         `,
+//         };
+
+//         transporter.sendMail(mailOptions, (error, info) => {
+//             if (error) {
+//                 console.log("Erreur lors de l'envoi de l'email :", error);
+//             } else {
+//                 console.log("Email envoyé :", info.response);
+//             }
+//         });
+
+//         res.json({ message: "L'e-mail de confirmation a été envoyé avec succès." });
+//     } catch (error) {
+//         console.error("Une erreur s'est produite :", error);
+//         res.status(500).send("Une erreur s'est produite lors de l'envoi de l'e-mail.");
+//     }
+// });
 
 const jwt = require("jsonwebtoken");
 

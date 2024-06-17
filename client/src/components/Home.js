@@ -8,7 +8,7 @@ import Carousel from "./Carousel";
 import Contact from "./Contact";
 import Select from "react-select";
 
-const Home = ({ paragraphRef, handleChange, handleSubmit, alertMessage }) => {
+const Home = ({ paragraphRef }) => {
     const [products, setProducts] = useState([]);
 
     const baseUrl = `http://localhost:8000`;
@@ -32,7 +32,7 @@ const Home = ({ paragraphRef, handleChange, handleSubmit, alertMessage }) => {
                 {/* <h1 className="hs-item-title">S'abonner à la joie sans se serrer la ceinture !</h1> */}
                 {/* <h1 className="hs-item-title">Écoutez, regardez, savourez... sans casser votre tirelire</h1> */}
                 <h1 className="container hs-item-title">
-                    Des heures de divertissement sans compter, <br /> à prix mini pour le plaisir maxi
+                    Des heures de divertissement sans compter, à prix mini
                     <br />
                     Avec ÉcoTunes
                 </h1>
@@ -106,7 +106,7 @@ const Home = ({ paragraphRef, handleChange, handleSubmit, alertMessage }) => {
                 <div className="card p-4 my-2">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-lg-6 col-md-6 col-sm-12 my-2 mx-0">
-                            <Contact handleChange={handleChange} handleSubmit={handleSubmit} alertMessage={alertMessage} />
+                            <Contact />
                         </div>
                     </div>
                 </div>

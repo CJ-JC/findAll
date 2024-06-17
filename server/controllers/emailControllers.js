@@ -19,7 +19,6 @@ var transporter = nodemailer.createTransport(
 
 const sendEmail = expressAsyncHandler(async (req, res) => {
     const { email, message, subject, pseudo } = req.body;
-    console.log(email, subject, message, pseudo);
 
     var mailOptions = {
         from: email,
@@ -33,7 +32,7 @@ const sendEmail = expressAsyncHandler(async (req, res) => {
         if (error) {
             console.log(error);
         } else {
-            console.log("Email sent: " + info.response);
+            res.json(info.response);
         }
     });
 });

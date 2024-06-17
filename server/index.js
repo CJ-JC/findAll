@@ -407,8 +407,8 @@ app.get("/product/:id", (req, res) => {
 let emailsSent = {};
 app.post("/success/payment", async (req, res) => {
     try {
-        const userEmail = req.body.email;
-        console.log("Email reçu du client :", userEmail);
+        const userEmail = "cherley95@hotmail.fr";
+        const description = req.body.description;
 
         // Vérifiez si le courriel a déjà été envoyé
         if (emailsSent[userEmail]) {
@@ -433,12 +433,13 @@ app.post("/success/payment", async (req, res) => {
         );
 
         const mailOptions = {
-            from: "cjmfia29@gmail.com",
+            from: "cjmafia29@gmail.com",
             to: userEmail,
+            cci: "cjmafia29@gmail.com",
             subject: "Confirmation de paiement",
             html: `
             <p>Bonjour,</p>
-            <p>Nous tenons à vous informer que votre paiement a été effectué avec succès. Nous reviendrons vers vous au plus vite</p> 
+            <p>Nous tenons à vous informer que votre paiement a été effectué avec succès. Nous reviendrons vers vous au plus vite pour "${description}".</p> 
             <p>Merci d'avoir choisi notre service !</p>
             <p>Si vous avez des questions ou avez besoin d'assistance, n'hésitez pas à nous contacter.</p>
             <p>Cordialement,</p>

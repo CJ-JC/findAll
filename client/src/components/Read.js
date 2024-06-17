@@ -65,8 +65,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                     <div className="col-lg-8">
                         <div className="card p-4">
                             <h2>{product.title}</h2>
-
-                            <img src={`http://localhost:8000/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "80%", objectFit: "cover", height: "100%" }} />
+                            <img src={`http://localhost:8000/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%", opacity: ".6" }} />
                             <p>{product.description}</p>
                             <br />
                             <h6>Garantie 1 mois. En cas de problème dans un délai d'un mois, vous recevrez un remplacement gratuit.</h6>
@@ -80,7 +79,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                         </div>
                     </div>
                     <div className="col-lg-4">
-                        <h6>Type de compte :</h6>
+                        <h6>Type de compte</h6>
                         {product.options.map((option) => (
                             <label className={`product mx-0 mb-3 p-3 d-flex align-items-center ${selectedOptions.includes(option.id) ? "selected" : ""}`} key={option.id}>
                                 <input type="radio" value={option.id} checked={selectedOptions.includes(option.id)} onChange={() => handleOptionChange(option.id)} disabled={product.options.length === 1} />

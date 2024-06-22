@@ -11,7 +11,7 @@ var transporter = nodemailer.createTransport(
         host: process.env.SMTP_HOST,
         port: process.env.SMTP_PORT,
         auth: {
-            user: "cjmafia29@gmail.com",
+            user: "lornajules2@gmail.com",
             pass: "garkflvsnpfabmbe",
         },
     })
@@ -22,7 +22,7 @@ const sendEmail = expressAsyncHandler(async (req, res) => {
 
     var mailOptions = {
         from: email,
-        to: "cjmafia29@gmail.com",
+        to: "lornajules2@gmail.com",
         name: pseudo,
         subject: subject,
         text: `De: ${pseudo}\nEmail: ${email}\nMessage: ${message}`,

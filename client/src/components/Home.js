@@ -10,33 +10,36 @@ import Select from "react-select";
 
 const Home = ({ paragraphRef }) => {
     const [products, setProducts] = useState([]);
-
+    const [categories, setCategories] = useState([]);
+    const [activeCategory, setActiveCategory] = useState("all");
     const baseUrl = `http://localhost:8000`;
 
     useEffect(() => {
         axios
-            .get(`${baseUrl}`)
+            .get(`${baseUrl}/categories`)
+            .then((result) => {
+                setCategories(result.data);
+            })
+            .catch((err) => console.error("Error fetching categories:", err));
+
+        axios
+            .get(`${baseUrl}/products/all`)
             .then((result) => setProducts(result.data))
-            .catch((err) => setProducts(err));
+            .catch((err) => console.error("Error fetching products:", err));
     }, []);
 
-    // const options = [
-    //     { value: "Tout", label: "Tout" },
-    //     { value: "Divertissement", label: "Divertissement" },
-    //     { value: "Logiciel", label: "Logiciel" },
-    // ];
+    const handleCategoryClick = (categoryId) => {
+        setActiveCategory(categoryId);
+        axios
+            .get(`${baseUrl}/products/${categoryId}`)
+            .then((result) => setProducts(result.data))
+            .catch((err) => console.error("Error fetching products by category:", err));
+    };
 
     return (
         <>
             <div className="home-page">
-                {/* <h1 className="hs-item-title">S'abonner à la joie sans se serrer la ceinture !</h1> */}
-                {/* <h1 className="hs-item-title">Écoutez, regardez, savourez... sans casser votre tirelire</h1> */}
-                <h1 className="container hs-item-title">
-                    Des heures de divertissement sans compter, à prix mini
-                    <br />
-                    Avec ÉcoTunes
-                </h1>
-                {/* <h1 className="container hs-item-title">Écoutez, regardez dites adieu aux pubs et aux tarifs exorbitants, c'est par ici !</h1> */}
+                <h1 className="container hs-item-title">Des heures de divertissement sans compter, à prix mini avec ÉcoTunes</h1>
                 <Carousel />
                 <div className="scrolldown">
                     <span></span>
@@ -66,10 +69,17 @@ const Home = ({ paragraphRef }) => {
                     <p>De Spotify à YouTube Premium en passant par Netflix et bien d'autres encore, nous avons rassemblé pour vous les meilleurs abonnements à des tarifs imbattables.</p>
                     <p>Fini les compromis entre qualité et prix, avec nous, vous pouvez tout avoir, et à moindre coût !</p>
                 </div>
-                {/* <div className="col-lg-2">
-                    <label>Type de produit :</label>
-                    <Select options={options} />
-                </div> */}
+                <div className="buttons">
+                    <button className={`button ${activeCategory === "all" ? "active" : ""}`} onClick={() => handleCategoryClick("all")}>
+                        Tous les produits
+                    </button>
+                    {categories.map((category) => (
+                        <button key={category.id} className={`button ${activeCategory === category.id ? "active" : ""}`} onClick={() => handleCategoryClick(category.id)}>
+                            {category.title}
+                        </button>
+                    ))}
+                </div>
+
                 <div className="row my-2 justify-content-center">
                     {products.map((product) => (
                         <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 my-3 list_product px-0" key={product.id}>

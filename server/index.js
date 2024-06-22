@@ -69,6 +69,60 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get("/categories", (req, res) => {
+    const sql = "SELECT * FROM category";
+
+    db.query(sql, (err, categories) => {
+        if (err) {
+            return res.json({ Message: "Error" });
+        }
+
+        res.json(categories);
+    });
+});
+
+app.get("/products/:categoryId", (req, res) => {
+    const categoryId = req.params.categoryId;
+    let sql;
+    let values;
+
+    if (categoryId === "all") {
+        sql = "SELECT * FROM product";
+        values = [];
+    } else {
+        sql = "SELECT * FROM product WHERE category_id = ?";
+        values = [categoryId];
+    }
+
+    db.query(sql, values, (err, products) => {
+        if (err) {
+            return res.json({ Message: "Error" });
+        }
+
+        // Récupérer les options pour chaque produit
+        const productsWithOptions = products.map(async (product) => {
+            const optionsSql = "SELECT * FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
+            const optionsValues = [product.id];
+
+            const options = await new Promise((resolve, reject) => {
+                db.query(optionsSql, optionsValues, (err, options) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(options);
+                    }
+                });
+            });
+
+            return { ...product, options };
+        });
+
+        Promise.all(productsWithOptions)
+            .then((result) => res.json(result))
+            .catch((err) => res.json({ Message: "Error fetching options", Error: err }));
+    });
+});
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         const uploadDir = "public/upload";
@@ -87,12 +141,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.post("/create", upload.single("image"), (req, res) => {
-    const { title, real_price, price_per_month, description } = req.body;
+    const { title, real_price, price_per_month, description, category_id } = req.body;
     const image = req.file.filename;
 
     // Insertion du produit dans la base de données
-    const productSql = "INSERT INTO product (`title`, `real_price`, `price_per_month`, `description`, `image`) VALUES (?, ?, ?, ?, ?)";
-    const productValues = [title, real_price, price_per_month, description, image];
+    const productSql = "INSERT INTO product (`title`, `real_price`, `price_per_month`, `description`, `category_id`, `image`) VALUES (?, ?, ?, ?, ?, ?)";
+    const productValues = [title, real_price, price_per_month, description, category_id, image];
 
     db.query(productSql, productValues, (err, productResult) => {
         if (err) {
@@ -159,7 +213,7 @@ app.get("/options/:id", (req, res) => {
 
 app.put("/update/:id", upload.single("image"), (req, res) => {
     const id = req.params.id;
-    const { title, real_price, price_per_month, description } = req.body;
+    const { title, real_price, price_per_month, description, category_id } = req.body;
     let image = req.file ? req.file.filename : null;
 
     let sql;
@@ -172,11 +226,11 @@ app.put("/update/:id", upload.single("image"), (req, res) => {
     let productTypeValues;
 
     if (image) {
-        sql = "UPDATE product SET `title` = ?, `real_price` = ?, `price_per_month` = ?, `description` = ?, `image` = ? WHERE id = ?";
-        values = [title, real_price, price_per_month, description, image, id];
+        sql = "UPDATE product SET `title` = ?, `real_price` = ?, `price_per_month` = ?, `description` = ?, `category_id` = ?, `image` = ? WHERE id = ?";
+        values = [title, real_price, price_per_month, description, category_id, image, id];
     } else {
-        sql = "UPDATE product SET `title` = ?, `real_price` = ?, `price_per_month` = ?, `description` = ? WHERE id = ?";
-        values = [title, real_price, price_per_month, description, id];
+        sql = "UPDATE product SET `title` = ?, `real_price` = ?, `price_per_month` = ?, `description` = ?, `category_id` = ? WHERE id = ?";
+        values = [title, real_price, price_per_month, description, category_id, id];
     }
 
     // Supprimer les options existantes liées à ce produit
@@ -407,7 +461,7 @@ app.get("/product/:id", (req, res) => {
 let emailsSent = {};
 app.post("/success/payment", async (req, res) => {
     try {
-        const userEmail = "cherley95@hotmail.fr";
+        const userEmail = "donypaul95@gmail.com";
         const description = req.body.description;
 
         // Vérifiez si le courriel a déjà été envoyé
@@ -426,16 +480,16 @@ app.post("/success/payment", async (req, res) => {
                 host: process.env.SMTP_HOST,
                 port: process.env.SMTP_PORT,
                 auth: {
-                    user: "cjmafia29@gmail.com",
+                    user: "lornajules2@gmail.com",
                     pass: "garkflvsnpfabmbe",
                 },
             })
         );
 
         const mailOptions = {
-            from: "cjmafia29@gmail.com",
+            from: "lornajules2@gmail.com",
             to: userEmail,
-            cci: "cjmafia29@gmail.com",
+            cc: "lornajules2@gmail.com",
             subject: "Confirmation de paiement",
             html: `
             <p>Bonjour,</p>
@@ -494,7 +548,7 @@ app.post("/success/payment", async (req, res) => {
 //                 host: process.env.SMTP_HOST,
 //                 port: process.env.SMTP_PORT,
 //                 auth: {
-//                     user: "cjmafia29@gmail.com",
+//                     user: "lornajules2@gmail.com",
 //                     pass: "garkflvsnpfabmbe",
 //                 },
 //             })

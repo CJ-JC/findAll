@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Modal } from "@mui/material";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 const Create = ({ handleClose, handleOpen, open, style }) => {
     const [product, setProduct] = useState({
@@ -10,9 +11,21 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
         price_per_month: "",
         description: "",
         image: null,
+        category_id: "",
     });
 
     const [image, setImage] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const navigate = useNavigate("");
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8000/categories")
+            .then((res) => {
+                setCategories(res.data);
+            })
+            .catch((err) => console.error("Error fetching categories:", err));
+    }, []);
 
     const handleChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -46,6 +59,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
         formData.append("price_per_month", product.price_per_month);
         formData.append("description", product.description);
         formData.append("image", image);
+        formData.append("category_id", product.category_id);
 
         // Ajouter les options
         options.forEach((option, index) => {
@@ -57,7 +71,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
             .post("http://localhost:8000/create", formData)
             .then((res) => {
                 setProduct(res.data);
-                window.location.reload();
+                navigate("/");
             })
             .catch((err) => setProduct(err));
     };
@@ -86,7 +100,17 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
                                 <label htmlFor="real_price">Vrai prix</label>
                                 <input id="real_price" className="form-control" type="text" onChange={handleChange} name="real_price" placeholder="Titre du produit" />
                             </div>
-
+                            <div className="col-lg-6 col-md-12 my-3">
+                                <label htmlFor="category">Catégorie du produit</label>
+                                <select id="category" className="form-control" onChange={handleChange} name="category_id">
+                                    <option>Sélectionnez une catégorie</option>
+                                    {categories.map((category) => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.title}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                             {options.map((option, index) => (
                                 <div className="row px-0" key={index}>
                                     <div className="col-lg-6 col-md-12 my-3">
@@ -108,7 +132,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
                                     Ajouter une option
                                 </button>
                             </div>
-                            <button className="btn btn-success w-auto">Créer</button>
+                            <button className="btn btn-success w-auto">Créer le produit</button>
                         </div>
                     </form>
                 </Box>

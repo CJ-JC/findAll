@@ -261,39 +261,33 @@ p {
     color: #bfbfbf;
 }
 
-.filters {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
+.buttons {
+    padding: 20px 0 40px;
+    text-align: center;
 }
 
-.filters li {
-    list-style-type: none;
-    align-items: center;
-    border-radius: 5px;
-    display: flex;
-    overflow: hidden;
-    border: 2px solid white;
+button.button {
+    transition: all 0.2s ease-in-out;
+    -webkit-appearance: none;
+    border-radius: 100px;
+    font-family: inherit;
+    appearance: none;
+    background: none;
+    font-weight: 700;
+    font-size: 16px;
     cursor: pointer;
-}
-
-.filters li:hover {
-    border: 2px solid #4361ee;
-    color: #4361ee;
-    cursor: pointer;
-}
-
-.filters li label {
-    cursor: pointer;
-    width: 100%;
     padding: 10px;
+    outline: none;
+    opacity: 0.7;
+    border: none;
+    color: #fff;
+    margin: 0 5px;
 }
 
-.filters li input {
-    margin-right: 10px;
-    width: 30px;
-    height: 30px;
+button.button:hover,
+button.button.active {
+    opacity: 1;
+    background-color: rgb(68, 68, 68);
 }
 
 input[type="radio"] {

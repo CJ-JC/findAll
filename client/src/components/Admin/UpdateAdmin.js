@@ -14,9 +14,20 @@ const UpdateAdmin = () => {
         image: null,
         options: [],
         totalOptions: 0,
+        category_id: "",
     });
 
     const [image, setImage] = useState(null);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8000/categories")
+            .then((res) => {
+                setCategories(res.data);
+            })
+            .catch((err) => console.error("Error fetching categories:", err));
+    }, []);
 
     useEffect(() => {
         axios
@@ -34,6 +45,7 @@ const UpdateAdmin = () => {
                             image: result.data[0].image,
                             options: optionsResult.data,
                             totalOptions: optionsResult.data.length,
+                            category_id: result.data[0].category_id,
                         });
                     })
                     .catch((optionsErr) => console.log(optionsErr));
@@ -72,6 +84,7 @@ const UpdateAdmin = () => {
         formData.append("price_per_month", product.price_per_month);
         formData.append("description", product.description);
         formData.append("image", image);
+        formData.append("category_id", product.category_id);
 
         product.options.forEach((option, index) => {
             formData.append(`option_name_${index}`, option.option_name);
@@ -79,7 +92,7 @@ const UpdateAdmin = () => {
         });
 
         try {
-            const res = await axios.put(`http://localhost:8000/update/${id}`, formData);
+            await axios.put(`http://localhost:8000/update/${id}`, formData);
             navigate("/home/admin");
         } catch (error) {
             console.error(error);
@@ -110,6 +123,17 @@ const UpdateAdmin = () => {
                             <input id="real_price" className="form-control" type="text" value={product.real_price} onChange={handleChange} name="real_price" placeholder="Titre du produit" />
                         </div>
                     </div>
+                    <div className="col-lg-6 col-md-12 my-3">
+                        <label htmlFor="category">Catégorie du produit</label>
+                        <select id="category" className="form-control" onChange={handleChange} name="category_id" value={product.category_id}>
+                            <option>Sélectionnez une catégorie</option>
+                            {categories.map((category) => (
+                                <option key={category.id} value={category.id}>
+                                    {category.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                     {product.options.map((option, index) => (
                         <div className="row justify-content-center px-0" key={index}>
                             <div className="col-lg-6 col-md-6 col-sm-12 my-3">
@@ -126,7 +150,6 @@ const UpdateAdmin = () => {
                         <label htmlFor="description">Description</label>
                         <textarea id="description" className="form-control" type="text" value={product.description} onChange={handleChange} name="description" placeholder="Description" />
                     </div>
-
                     <div className="col-12 my-3">
                         <button type="button" className="btn btn-secondary" onClick={handleAddOption}>
                             Ajouter une option

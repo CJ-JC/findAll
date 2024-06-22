@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Modalopen from "../Modal/Modal";
 import Create from "../Create";
 import Footer from "../Footer";
@@ -20,6 +20,7 @@ const style = {
 
 const HomeAdmin = () => {
     const [products, setProducts] = useState([]);
+    const [confirmDelete, setConfirmDelete] = useState(null); // État pour gérer la confirmation de suppression
 
     const handleClose = () => setOpen(false);
     const handleOpen = () => setOpen(true);
@@ -34,11 +35,19 @@ const HomeAdmin = () => {
     }, []);
 
     const handleDelete = (id) => {
-        axios
-            .delete(`http://localhost:8000/delete/${id}`)
-            .then((result) => setProducts(result.data))
-            .catch((err) => setProducts(err));
-        window.location.reload();
+        setConfirmDelete(id); // Ouvrir la boîte de dialogue de confirmation
+    };
+
+    const confirmDeleteAction = () => {
+        if (confirmDelete) {
+            axios
+                .delete(`http://localhost:8000/delete/${confirmDelete}`)
+                .then((result) => {
+                    setProducts(products.filter((product) => product.id !== confirmDelete));
+                    setConfirmDelete(null); // Réinitialiser l'état après suppression
+                })
+                .catch((err) => console.error(err));
+        }
     };
 
     return (
@@ -67,13 +76,13 @@ const HomeAdmin = () => {
                                             </Link>
                                         </div>
                                         <div className="col-4">
-                                            <Link className="btn btn-danger d-inline-flex align-items-center" onClick={() => handleDelete(product.id)}>
+                                            <button className="btn btn-danger d-inline-flex align-items-center" onClick={() => handleDelete(product.id)}>
                                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M21 6.001h-5v-1.67a2.42 2.42 0 0 0-2.5-2.33h-3A2.42 2.42 0 0 0 8 4.331v1.67H3a1 1 0 0 0 0 2h1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-11h1a1 1 0 1 0 0-2Zm-11-1.67c0-.16.21-.33.5-.33h3c.29 0 .5.17.5.33v1.67h-4v-1.67Zm8 14.67a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-11h12v11Z"></path>
                                                     <path d="M9 17a1 1 0 0 0 1-1v-4a1 1 0 1 0-2 0v4a1 1 0 0 0 1 1Z"></path>
                                                     <path d="M15 17a1 1 0 0 0 1-1v-4a1 1 0 0 0-2 0v4a1 1 0 0 0 1 1Z"></path>
                                                 </svg>
-                                            </Link>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +96,7 @@ const HomeAdmin = () => {
                                     {product.real_price ? (
                                         <div>
                                             <p className="m-0">soit {product.price_per_month}€ / mois</p>
-                                            <p className="m-0">{product.real_price}</p>
+                                            <p className="m-0">{product.real_price}€</p>
                                         </div>
                                     ) : (
                                         <p className="m-0">soit {product.price_per_month}€ / mois</p>
@@ -98,6 +107,32 @@ const HomeAdmin = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Boîte de dialogue modale de confirmation */}
+            {confirmDelete && (
+                <div className="modal" style={{ display: "block", backgroundColor: "rgba(0, 0, 0, 0.5)", position: "fixed", zIndex: "9999", top: "0", bottom: "0", left: "0", right: "0" }}>
+                    <div className="modal-dialog" style={{ maxWidth: "400px", margin: "15% auto" }}>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Confirmation de suppression</h5>
+                                <button type="button" className="btn-close" onClick={() => setConfirmDelete(null)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <p>Êtes-vous sûr de vouloir supprimer ce produit ?</p>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={() => setConfirmDelete(null)}>
+                                    Annuler
+                                </button>
+                                <button type="button" className="btn btn-danger" onClick={confirmDeleteAction}>
+                                    Confirmer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <Footer />
         </>
     );

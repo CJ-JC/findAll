@@ -12,19 +12,13 @@ const Footer = () => {
                         <a href="#">
                             <i className="icon ion-social-snapchat"></i>
                         </a>
-                        <a href="#">
-                            <i className="icon ion-social-twitter"></i>
-                        </a>
                         <a href="https://t.me/ecotunes" target="_blank">
                             <i className="fa fa-paper-plane"></i>
                         </a>
                     </div>
                     <ul className="list-inline">
                         <li className="list-inline-item">
-                            <a href="/">Home</a>
-                        </li>
-                        <li className="list-inline-item">
-                            <a href="#">About</a>
+                            <a href="/">Accueil</a>
                         </li>
                         <li className="list-inline-item">
                             <a href="/politique">Conditions</a>

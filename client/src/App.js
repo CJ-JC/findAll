@@ -10,17 +10,28 @@ import Login from "./components/Login/Login";
 import Success from "./components/Success";
 import Read from "./components/Read";
 import Politique from "./components/Politique";
+import PuffLoader from "react-spinners/PuffLoader";
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         // Vérifiez si un token est présent dans le localStorage
         const token = localStorage.getItem("token");
         setIsLoggedIn(!!token); // !! converts token to boolean
+        setIsLoading(false);
     }, []);
 
     const paragraphRef = useRef(null);
+
+    if (isLoading) {
+        return (
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+                <PuffLoader color={"#fff"} size={150} aria-label="Loading Spinner" data-testid="loader" />
+            </div>
+        );
+    }
 
     return (
         <BrowserRouter>

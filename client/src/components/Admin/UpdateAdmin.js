@@ -106,11 +106,11 @@ const UpdateAdmin = () => {
                     <h1 className="text-center">Modifier {product.title}</h1>
                     <hr />
                     <div className="row justify-content-center">
-                        <div className="col-6 my-3">
+                        <div className="col-lg-6 my-3">
                             <label htmlFor="title">Titre</label>
                             <input id="title" className="form-control" required type="text" value={product.title} onChange={handleChange} name="title" placeholder="Titre du produit" />
                         </div>
-                        <div className="col-6 my-3">
+                        <div className="col-lg-6 my-3">
                             <label htmlFor="image">Image du produit</label>
                             <input id="image" className="form-control" type="file" onChange={handleImageChange} name="image" placeholder="Image du produit" />
                         </div>

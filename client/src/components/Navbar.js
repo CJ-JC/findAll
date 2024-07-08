@@ -4,21 +4,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 const Navbar = ({ isLoggedIn, setIsLoggedIn, paragraphRef }) => {
     const navigate = useNavigate();
 
-    const [scrolled, setScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const isScrolled = window.scrollY > 50;
-            setScrolled(isScrolled);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
     const handleLogout = () => {
         localStorage.removeItem("token");
         // Mettre à jour l'état pour indiquer que l'utilisateur n'est plus connecté
@@ -28,7 +13,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, paragraphRef }) => {
     };
 
     return (
-        <nav className={`navbar navbar-expand-lg p-0 ${scrolled ? "scrolled" : ""}`}>
+        <nav className="navbar navbar-expand-lg p-0">
             <div className="container">
                 <NavLink className="navbar-brand" to="/">
                     <img className="logo" src="../img/logo.png" alt="" />

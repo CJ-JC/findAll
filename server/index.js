@@ -481,7 +481,7 @@ app.post("/success/payment", async (req, res) => {
                 port: process.env.SMTP_PORT,
                 auth: {
                     user: "lornajules2@gmail.com",
-                    pass: "garkflvsnpfabmbe",
+                    pass: "sopopxlrrkrsbudy",
                 },
             })
         );

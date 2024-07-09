@@ -10,9 +10,12 @@ import Select from "react-select";
 
 const Home = ({ paragraphRef }) => {
     const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([
+        { id: "1", title: "Divertissement" },
+        { id: "2", title: "Logiciels" },
+    ]);
     const [activeCategory, setActiveCategory] = useState("all");
-    const baseUrl = `http://localhost:8000`;
+    const baseUrl = `https://findall.onrender.com`;
 
     useEffect(() => {
         axios
@@ -73,42 +76,50 @@ const Home = ({ paragraphRef }) => {
                     <button className={`button ${activeCategory === "all" ? "active" : ""}`} onClick={() => handleCategoryClick("all")}>
                         Tous les produits
                     </button>
-                    {categories.map((category) => (
-                        <button key={category.id} className={`button ${activeCategory === category.id ? "active" : ""}`} onClick={() => handleCategoryClick(category.id)}>
-                            {category.title}
-                        </button>
-                    ))}
+                    {categories.length > 0 ? (
+                        categories.map((category) => (
+                            <button key={category.id} className={`button ${activeCategory === category.id ? "active" : ""}`} onClick={() => handleCategoryClick(category.id)}>
+                                {category.title}
+                            </button>
+                        ))
+                    ) : (
+                        <p>Aucune catégorie disponible.</p>
+                    )}
                 </div>
 
                 <div className="row my-2 justify-content-center">
-                    {products.map((product) => (
-                        <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 my-3 list_product px-0" key={product.id}>
-                            <div className="card">
-                                <a href={`/product/${product.id}`}>
-                                    <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
-                                    <div className="card-body">
-                                        <h6 className="card-title">{product.title}</h6>
-                                        {/* <p className="card-text">Valable : 1 an</p> */}
-                                        {product.options.length > 0 && (
-                                            <div>
-                                                <h6 className="card-text">{product.options[0].option_price}€</h6>
-                                            </div>
-                                        )}
-                                        {product.real_price ? (
-                                            <div>
+                    {products.length > 0 ? (
+                        products.map((product) => (
+                            <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 my-3 list_product px-0" key={product.id}>
+                                <div className="card">
+                                    <a href={`/product/${product.id}`}>
+                                        <img className="card-img-top" src={`https://findall.onrender.com/upload/${product.image}`} alt={product.title} />
+                                        <div className="card-body">
+                                            <h6 className="card-title">{product.title}</h6>
+                                            {/* <p className="card-text">Valable : 1 an</p> */}
+                                            {product.options.length > 0 && (
+                                                <div>
+                                                    <h6 className="card-text">{product.options[0].option_price}€</h6>
+                                                </div>
+                                            )}
+                                            {product.real_price ? (
+                                                <div>
+                                                    <p className="m-0">soit {product.price_per_month}€ / mois</p>
+                                                    <strike>
+                                                        {product.real_price}€ sur {product.title}
+                                                    </strike>
+                                                </div>
+                                            ) : (
                                                 <p className="m-0">soit {product.price_per_month}€ / mois</p>
-                                                <strike>
-                                                    {product.real_price}€ sur {product.title}
-                                                </strike>
-                                            </div>
-                                        ) : (
-                                            <p className="m-0">soit {product.price_per_month}€ / mois</p>
-                                        )}
-                                    </div>
-                                </a>
+                                            )}
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    ) : (
+                        <p>Aucun produit disponible.</p>
+                    )}
                 </div>
             </div>
             <div className="container contact my-5" ref={paragraphRef}>

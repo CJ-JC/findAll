@@ -12,7 +12,7 @@ const Login = ({ setIsLoggedIn }) => {
 
     const [error, setError] = useState("");
 
-    const baseUrl = "http://localhost:8000";
+    const baseUrl = "https://findall.onrender.com";
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });

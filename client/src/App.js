@@ -34,7 +34,7 @@ const App = () => {
     }
 
     return (
-        <HashRouter>
+        <BrowserRouter>
             <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} paragraphRef={paragraphRef} />
             <Routes>
                 <Route path="/" element={<Home paragraphRef={paragraphRef} />} />
@@ -46,7 +46,7 @@ const App = () => {
                 <Route path="/update/admin/:id" element={isLoggedIn ? <UpdateAdmin /> : <Navigate to="/" />} />
                 <Route path="/admin/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
             </Routes>
-        </HashRouter>
+        </BrowserRouter>
     );
 };
 

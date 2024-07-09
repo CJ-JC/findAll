@@ -29,7 +29,7 @@ const HomeAdmin = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8000/")
+            .get("https://findall.onrender.com/")
             .then((result) => setProducts(result.data))
             .catch((err) => setProducts(err));
     }, []);
@@ -41,7 +41,7 @@ const HomeAdmin = () => {
     const confirmDeleteAction = () => {
         if (confirmDelete) {
             axios
-                .delete(`http://localhost:8000/delete/${confirmDelete}`)
+                .delete(`https://findall.onrender.com/delete/${confirmDelete}`)
                 .then((result) => {
                     setProducts(products.filter((product) => product.id !== confirmDelete));
                     setConfirmDelete(null); // Réinitialiser l'état après suppression
@@ -62,7 +62,7 @@ const HomeAdmin = () => {
                     {products.map((product) => (
                         <div className="col-xl-3 col-lg-3 col-md-4 col-sm-12 my-3 px-0 list_product" key={product.id}>
                             <div className="card" style={{ height: "280px" }}>
-                                <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
+                                <img className="card-img-top" src={`https://findall.onrender.com/upload/${product.image}`} alt={product.title} />
                                 <div className="icon">
                                     <div className="row">
                                         <div className="col-4">

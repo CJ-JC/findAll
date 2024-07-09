@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, HashRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./components/Home";
 import Create from "./components/Create";
@@ -34,7 +34,7 @@ const App = () => {
     }
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} paragraphRef={paragraphRef} />
             <Routes>
                 <Route path="/" element={<Home paragraphRef={paragraphRef} />} />
@@ -46,7 +46,7 @@ const App = () => {
                 <Route path="/update/admin/:id" element={isLoggedIn ? <UpdateAdmin /> : <Navigate to="/" />} />
                 <Route path="/admin/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 

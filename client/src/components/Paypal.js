@@ -36,7 +36,7 @@ export default function Paypal({ product, totalPrice, quantity, selectedOptions 
                         "Content-Type": "application/json",
                     };
                     try {
-                        await axios.post("https://findall.onrender.com/success/payment", body, { headers });
+                        await axios.post("http://localhost:8000/success/payment", body, { headers });
                         navigate(`/success/${order.id}`, { state: { email: order.payer.email_address } });
                     } catch (error) {
                         console.error("Erreur lors de l'appel de la requête de succès:", error);

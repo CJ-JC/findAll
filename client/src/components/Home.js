@@ -10,12 +10,9 @@ import Select from "react-select";
 
 const Home = ({ paragraphRef }) => {
     const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([
-        { id: "1", title: "Divertissement" },
-        { id: "2", title: "Logiciels" },
-    ]);
+    const [categories, setCategories] = useState([]);
     const [activeCategory, setActiveCategory] = useState("all");
-    const baseUrl = `https://findall.onrender.com`;
+    const baseUrl = `http://localhost:8000`;
 
     useEffect(() => {
         axios
@@ -76,15 +73,11 @@ const Home = ({ paragraphRef }) => {
                     <button className={`button ${activeCategory === "all" ? "active" : ""}`} onClick={() => handleCategoryClick("all")}>
                         Tous les produits
                     </button>
-                    {categories.length > 0 ? (
-                        categories.map((category) => (
-                            <button key={category.id} className={`button ${activeCategory === category.id ? "active" : ""}`} onClick={() => handleCategoryClick(category.id)}>
-                                {category.title}
-                            </button>
-                        ))
-                    ) : (
-                        <p>Aucune catégorie disponible.</p>
-                    )}
+                    {categories.map((category) => (
+                        <button key={category.id} className={`button ${activeCategory === category.id ? "active" : ""}`} onClick={() => handleCategoryClick(category.id)}>
+                            {category.title}
+                        </button>
+                    ))}
                 </div>
 
                 <div className="row my-2 justify-content-center">
@@ -93,7 +86,7 @@ const Home = ({ paragraphRef }) => {
                             <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 my-3 list_product px-0" key={product.id}>
                                 <div className="card">
                                     <a href={`/product/${product.id}`}>
-                                        <img className="card-img-top" src={`https://findall.onrender.com/upload/${product.image}`} alt={product.title} />
+                                        <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
                                         <div className="card-body">
                                             <h6 className="card-title">{product.title}</h6>
                                             {/* <p className="card-text">Valable : 1 an</p> */}

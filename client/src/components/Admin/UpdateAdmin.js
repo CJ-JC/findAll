@@ -22,7 +22,7 @@ const UpdateAdmin = () => {
 
     useEffect(() => {
         axios
-            .get("https://findall.onrender.com/categories")
+            .get("http://localhost:8000/categories")
             .then((res) => {
                 setCategories(res.data);
             })
@@ -31,10 +31,10 @@ const UpdateAdmin = () => {
 
     useEffect(() => {
         axios
-            .get(`https://findall.onrender.com/${id}`)
+            .get(`http://localhost:8000/${id}`)
             .then((result) => {
                 axios
-                    .get(`https://findall.onrender.com/options/${id}`)
+                    .get(`http://localhost:8000/options/${id}`)
                     .then((optionsResult) => {
                         setProduct({
                             ...product,
@@ -92,7 +92,7 @@ const UpdateAdmin = () => {
         });
 
         try {
-            await axios.put(`https://findall.onrender.com/update/${id}`, formData);
+            await axios.put(`http://localhost:8000/update/${id}`, formData);
             navigate("/home/admin");
         } catch (error) {
             console.error(error);

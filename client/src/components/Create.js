@@ -20,7 +20,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
 
     useEffect(() => {
         axios
-            .get("https://findall.onrender.com/categories")
+            .get("http://localhost:8000/categories")
             .then((res) => {
                 setCategories(res.data);
             })
@@ -68,7 +68,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
         });
 
         axios
-            .post("https://findall.onrender.com/create", formData)
+            .post("http://localhost:8000/create", formData)
             .then((res) => {
                 setProduct(res.data);
                 navigate("/");

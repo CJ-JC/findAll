@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Contact = () => {
-    const baseUrl = "https://findall.onrender.com";
+    const baseUrl = "http://localhost:8000";
     const [alertMessage, setAlertMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 

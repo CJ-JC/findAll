@@ -35,10 +35,6 @@ const db = mysql.createConnection({
 
 const port = 8000;
 
-app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
-
 app.use("/email", emailRoutes);
 
 app.get("/", (req, res) => {
@@ -619,6 +615,10 @@ app.post("/login", (req, res) => {
 // Endpoint pour la déconnexion
 app.post("/logout", (req, res) => {
     res.json({ Message: "Logged out successfully" });
+});
+
+app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 app.listen(port, (req, res) => {

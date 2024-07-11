@@ -14,7 +14,7 @@ const smtpTransport = require("nodemailer-smtp-transport");
 
 const app = express();
 app.use(express.json());
-// app.use(express.static("public"));
+app.use(express.static("client/build"));
 app.use(cors());
 env.config();
 app.use(bodyParser.json());
@@ -616,8 +616,6 @@ app.post("/login", (req, res) => {
 app.post("/logout", (req, res) => {
     res.json({ Message: "Logged out successfully" });
 });
-
-app.use(express.static("client/build"));
 
 app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "./client/build/index.html"));

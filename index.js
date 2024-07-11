@@ -14,7 +14,7 @@ const smtpTransport = require("nodemailer-smtp-transport");
 
 const app = express();
 app.use(express.json());
-app.use(express.static("client/build"));
+app.use(express.static("public"));
 app.use(cors());
 env.config();
 app.use(bodyParser.json());

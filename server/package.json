@@ -11,9 +11,6 @@
         "install-client": "cd client && npm install",
         "build": "cd client && npm run build"
     },
-    "engines": {
-        "node": "22.x"
-    },
     "keywords": [],
     "author": "",
     "license": "ISC",

@@ -14,7 +14,7 @@ const smtpTransport = require("nodemailer-smtp-transport");
 
 const app = express();
 app.use(express.json());
-app.use(express.static("client/build"));
+app.use(express.static("public"));
 app.use(cors());
 env.config();
 app.use(bodyParser.json());
@@ -617,14 +617,14 @@ app.post("/logout", (req, res) => {
     res.json({ Message: "Logged out successfully" });
 });
 
-app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"), (err) => {
-        if (err) {
-            console.error("Error serving index.html:", err);
-            res.status(500).send("Error serving the React app");
-        }
-    });
-});
+// app.get("/*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "client/build", "index.html"), (err) => {
+//         if (err) {
+//             console.error("Error serving index.html:", err);
+//             res.status(500).send("Error serving the React app");
+//         }
+//     });
+// });
 
 app.listen(PORT, (req, res) => {
     console.log(`Le serveur est lancé sur le port ${PORT}`);

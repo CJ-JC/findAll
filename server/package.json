@@ -6,7 +6,12 @@
     "scripts": {
         "start": "nodemon index.js",
         "client": "cd client && npm install",
+        "install-client": "cd client && npm install",
+        "heroku-postbuild": "npm run install-client && npm run build",
         "build": "cd client && npm run build"
+    },
+    "engines": {
+        "node": "22.x"
     },
     "keywords": [],
     "author": "",

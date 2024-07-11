@@ -33,7 +33,7 @@ const db = mysql.createConnection({
     database: "finddigital",
 });
 
-const port = 8000;
+const PORT = process.env.PORT || 8001;
 
 app.use("/email", emailRoutes);
 
@@ -621,6 +621,6 @@ app.get("/*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
-app.listen(port, (req, res) => {
-    console.log("listening on port " + port);
+app.listen(PORT, (req, res) => {
+    console.log(`Le serveur est lancé sur le port ${PORT}`);
 });

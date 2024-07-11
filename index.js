@@ -617,8 +617,10 @@ app.post("/logout", (req, res) => {
     res.json({ Message: "Logged out successfully" });
 });
 
+// app.use(express.static(path.join(__dirname, "client/build")));
+
 app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/build/index.html"));
+    res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
 app.listen(PORT, (req, res) => {

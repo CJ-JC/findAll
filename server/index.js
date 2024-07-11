@@ -37,36 +37,37 @@ const PORT = process.env.PORT || 8001;
 
 app.use("/email", emailRoutes);
 
-app.get("/", (req, res) => {
-    const sql = "SELECT * FROM product";
+app.use("/", (req, res) => {
+    // const sql = "SELECT * FROM product";
 
-    db.query(sql, (err, products) => {
-        if (err) {
-            return res.json({ Message: "Error" });
-        }
+    // db.query(sql, (err, products) => {
+    //     if (err) {
+    //         return res.json({ Message: "Error" });
+    //     }
 
-        // Récupérer les options pour chaque produit
-        const productsWithOptions = products.map(async (product) => {
-            const optionsSql = "SELECT * FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
-            const optionsValues = [product.id];
+    //     // Récupérer les options pour chaque produit
+    //     const productsWithOptions = products.map(async (product) => {
+    //         const optionsSql = "SELECT * FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
+    //         const optionsValues = [product.id];
 
-            const options = await new Promise((resolve, reject) => {
-                db.query(optionsSql, optionsValues, (err, options) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve(options);
-                    }
-                });
-            });
+    //         const options = await new Promise((resolve, reject) => {
+    //             db.query(optionsSql, optionsValues, (err, options) => {
+    //                 if (err) {
+    //                     reject(err);
+    //                 } else {
+    //                     resolve(options);
+    //                 }
+    //             });
+    //         });
 
-            return { ...product, options };
-        });
+    //         return { ...product, options };
+    //     });
 
-        Promise.all(productsWithOptions)
-            .then((result) => res.json(result))
-            .catch((err) => res.json({ Message: "Error fetching options", Error: err }));
-    });
+    //     Promise.all(productsWithOptions)
+    //         .then((result) => res.json(result))
+    //         .catch((err) => res.json({ Message: "Error fetching options", Error: err }));
+    // });
+    res.send("Ici");
 });
 
 app.get("/categories", (req, res) => {

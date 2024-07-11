@@ -37,26 +37,36 @@ const PORT = process.env.PORT || 8001;
 
 app.use("/email", emailRoutes);
 
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
     const sql = "SELECT * FROM product";
 
-    try {
-        const [products] = await db.promise().query(sql);
+    db.query(sql, (err, products) => {
+        if (err) {
+            return res.json({ Message: "Error" });
+        }
 
         // Récupérer les options pour chaque produit
-        const productsWithOptions = await Promise.all(
-            products.map(async (product) => {
-                const optionsSql = "SELECT * FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
-                const optionsValues = [product.id];
-                const [options] = await db.promise().query(optionsSql, optionsValues);
-                return { ...product, options };
-            })
-        );
+        const productsWithOptions = products.map(async (product) => {
+            const optionsSql = "SELECT * FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
+            const optionsValues = [product.id];
 
-        res.json(productsWithOptions);
-    } catch (err) {
-        res.status(500).json({ Message: "Error fetching options", Error: err });
-    }
+            const options = await new Promise((resolve, reject) => {
+                db.query(optionsSql, optionsValues, (err, options) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(options);
+                    }
+                });
+            });
+
+            return { ...product, options };
+        });
+
+        Promise.all(productsWithOptions)
+            .then((result) => res.json(result))
+            .catch((err) => res.json({ Message: "Error fetching options", Error: err }));
+    });
 });
 
 app.get("/categories", (req, res) => {
@@ -71,7 +81,7 @@ app.get("/categories", (req, res) => {
     });
 });
 
-app.get("/products/:categoryId", async (req, res) => {
+app.get("/products/:categoryId", (req, res) => {
     const categoryId = req.params.categoryId;
     let sql;
     let values;
@@ -84,22 +94,33 @@ app.get("/products/:categoryId", async (req, res) => {
         values = [categoryId];
     }
 
-    try {
-        const [products] = await db.promise().query(sql, values);
+    db.query(sql, values, (err, products) => {
+        if (err) {
+            return res.json({ Message: "Error" });
+        }
 
-        const productsWithOptions = await Promise.all(
-            products.map(async (product) => {
-                const optionsSql = "SELECT * FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
-                const optionsValues = [product.id];
-                const [options] = await db.promise().query(optionsSql, optionsValues);
-                return { ...product, options };
-            })
-        );
+        // Récupérer les options pour chaque produit
+        const productsWithOptions = products.map(async (product) => {
+            const optionsSql = "SELECT * FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
+            const optionsValues = [product.id];
 
-        res.json(productsWithOptions);
-    } catch (err) {
-        res.status(500).json({ Message: "Error fetching options", Error: err });
-    }
+            const options = await new Promise((resolve, reject) => {
+                db.query(optionsSql, optionsValues, (err, options) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve(options);
+                    }
+                });
+            });
+
+            return { ...product, options };
+        });
+
+        Promise.all(productsWithOptions)
+            .then((result) => res.json(result))
+            .catch((err) => res.json({ Message: "Error fetching options", Error: err }));
+    });
 });
 
 const storage = multer.diskStorage({

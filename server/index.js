@@ -37,7 +37,7 @@ const PORT = process.env.PORT || 8001;
 
 app.use("/email", emailRoutes);
 
-pp.use("/", (req, res) => {
+app.use("/", (req, res) => {
     // const sql = "SELECT * FROM product";
 
     // db.query(sql, (err, products) => {

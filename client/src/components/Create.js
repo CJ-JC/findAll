@@ -20,7 +20,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
 
     useEffect(() => {
         axios
-            .get("https://digital-discount-server.vercel.app//categories")
+            .get("https://digital-discount-server.vercel.app/categories")
             .then((res) => {
                 setCategories(res.data);
             })
@@ -68,7 +68,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
         });
 
         axios
-            .post("https://digital-discount-server.vercel.app//create", formData)
+            .post("https://digital-discount-server.vercel.app/create", formData)
             .then((res) => {
                 setProduct(res.data);
                 navigate("/");

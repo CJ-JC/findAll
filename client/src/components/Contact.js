@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Contact = () => {
-    const baseUrl = "https://digital-discount-server.vercel.app/";
+    const baseUrl = "https://digital-discount-server.vercel.app";
     const [alertMessage, setAlertMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 

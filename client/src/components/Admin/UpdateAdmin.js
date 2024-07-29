@@ -22,7 +22,7 @@ const UpdateAdmin = () => {
 
     useEffect(() => {
         axios
-            .get("https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//categories")
+            .get("https://digital-discount-server.vercel.app//categories")
             .then((res) => {
                 setCategories(res.data);
             })
@@ -31,10 +31,10 @@ const UpdateAdmin = () => {
 
     useEffect(() => {
         axios
-            .get(`https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//${id}`)
+            .get(`https://digital-discount-server.vercel.app//${id}`)
             .then((result) => {
                 axios
-                    .get(`https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//options/${id}`)
+                    .get(`https://digital-discount-server.vercel.app//options/${id}`)
                     .then((optionsResult) => {
                         setProduct({
                             ...product,
@@ -92,7 +92,7 @@ const UpdateAdmin = () => {
         });
 
         try {
-            await axios.put(`https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//update/${id}`, formData);
+            await axios.put(`https://digital-discount-server.vercel.app//update/${id}`, formData);
             navigate("/home/admin");
         } catch (error) {
             console.error(error);

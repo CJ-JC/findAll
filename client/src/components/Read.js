@@ -18,7 +18,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
 
     const { id } = useParams();
 
-    const baseUrl = "https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app/";
+    const baseUrl = "https://digital-discount-server.vercel.app/";
 
     useEffect(() => {
         axios
@@ -65,7 +65,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                     <div className="col-lg-8">
                         <div className="card p-4">
                             <h2>{product.title}</h2>
-                            <img src={`https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%", opacity: ".6" }} />
+                            <img src={`https://digital-discount-server.vercel.app//upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%", opacity: ".6" }} />
                             <p>{product.description}</p>
                             <br />
                             <h6>Garantie 1 mois. En cas de problème dans un délai d'un mois, vous recevrez un remplacement gratuit.</h6>

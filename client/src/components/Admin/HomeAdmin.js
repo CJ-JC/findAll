@@ -29,7 +29,7 @@ const HomeAdmin = () => {
 
     useEffect(() => {
         axios
-            .get("https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//")
+            .get("https://digital-discount-server.vercel.app//")
             .then((result) => setProducts(result.data))
             .catch((err) => setProducts(err));
     }, []);
@@ -41,7 +41,7 @@ const HomeAdmin = () => {
     const confirmDeleteAction = () => {
         if (confirmDelete) {
             axios
-                .delete(`https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//delete/${confirmDelete}`)
+                .delete(`https://digital-discount-server.vercel.app//delete/${confirmDelete}`)
                 .then((result) => {
                     setProducts(products.filter((product) => product.id !== confirmDelete));
                     setConfirmDelete(null); // Réinitialiser l'état après suppression
@@ -62,7 +62,7 @@ const HomeAdmin = () => {
                     {products.map((product) => (
                         <div className="col-xl-3 col-lg-3 col-md-4 col-sm-12 my-3 px-0 list_product" key={product.id}>
                             <div className="card" style={{ height: "280px" }}>
-                                <img className="card-img-top" src={`https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//upload/${product.image}`} alt={product.title} />
+                                <img className="card-img-top" src={`https://digital-discount-server.vercel.app//upload/${product.image}`} alt={product.title} />
                                 <div className="icon">
                                     <div className="row">
                                         <div className="col-4">

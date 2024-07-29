@@ -26,11 +26,11 @@ const corsOptions = {
 };
 
 const db = mysql.createConnection({
-    host: "b0uq9hqybv7bqqoiyg75-mysql.services.clever-cloud.com",
-    user: "uyf9wearp2cjslug",
-    password: "8QazP208HSgQ7bcPfwvN",
-    port: 3306,
-    database: "b0uq9hqybv7bqqoiyg75",
+    host: "localhost",
+    user: "root",
+    password: "root",
+    port: 8889,
+    database: "finddigital",
 });
 
 const PORT = process.env.PORT || 8001;

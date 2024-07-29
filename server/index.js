@@ -33,7 +33,7 @@ const db = mysql.createConnection({
     database: "b0uq9hqybv7bqqoiyg75",
 });
 
-const PORT = process.env.PORT || 8001;
+const PORT = process.env.PORT || "https://digital-discount-server.vercel.app";
 
 app.use("/email", emailRoutes);
 

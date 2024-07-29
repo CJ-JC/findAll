@@ -73,15 +73,11 @@ const Home = ({ paragraphRef }) => {
                     <button className={`button ${activeCategory === "all" ? "active" : ""}`} onClick={() => handleCategoryClick("all")}>
                         Tous les produits
                     </button>
-                    {categories.length > 0 ? (
-                        categories.map((category) => (
-                            <button key={category.id} className={`button ${activeCategory === category.id ? "active" : ""}`} onClick={() => handleCategoryClick(category.id)}>
-                                {category.title}
-                            </button>
-                        ))
-                    ) : (
-                        <p>Aucune catégorie disponible.</p>
-                    )}
+                    {categories.map((category) => (
+                        <button key={category.id} className={`button ${activeCategory === category.id ? "active" : ""}`} onClick={() => handleCategoryClick(category.id)}>
+                            {category.title}
+                        </button>
+                    ))}
                 </div>
 
                 <div className="row my-2 justify-content-center">

@@ -11,7 +11,7 @@ export default function CheckoutForm({ product, totalPrice }) {
         };
 
         try {
-            const response = await axios.post("http://localhost:8000/api/create-checkout-session", body, { headers });
+            const response = await axios.post("https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//api/create-checkout-session", body, { headers });
             const session = response.data;
 
             const result = stripe.redirectToCheckout({

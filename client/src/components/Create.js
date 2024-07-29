@@ -20,7 +20,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8000/categories")
+            .get("https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//categories")
             .then((res) => {
                 setCategories(res.data);
             })
@@ -68,7 +68,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
         });
 
         axios
-            .post("http://localhost:8000/create", formData)
+            .post("https://digital-discount-server-8cnrfax1a-john-does-projects-63a61406.vercel.app//create", formData)
             .then((res) => {
                 setProduct(res.data);
                 navigate("/");

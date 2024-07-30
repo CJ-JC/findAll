@@ -111,7 +111,9 @@ const Home = ({ paragraphRef }) => {
                             </div>
                         ))
                     ) : (
-                        <p>Aucun produit disponible.</p>
+                        <div className="text-center">
+                            <p>Aucun produit disponible.</p>
+                        </div>
                     )}
                 </div>
             </div>

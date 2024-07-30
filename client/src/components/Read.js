@@ -6,7 +6,6 @@ import Contact from "./Contact";
 import Footer from "./Footer";
 import Politique from "./Politique";
 import Paypal from "./Paypal";
-import ReactLoading from "react-loading";
 
 const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
     const [open, setOpen] = useState(false);
@@ -52,7 +51,12 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
     };
 
     if (!product) {
-        return <ReactLoading type="spin" color="#0000FF" height={100} width={50} />;
+        return (
+            <div className="spinner">
+                <span>Chargement...</span>
+                <div className="half-spinner"></div>
+            </div>
+        );
     }
 
     const selectedOption = product.options?.find((option) => selectedOptions.includes(option.id));

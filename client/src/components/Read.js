@@ -52,8 +52,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
 
     if (!product) {
         return (
-            <div className="spinner">
-                <span>Chargement...</span>
+            <div className="spinner mx-auto">
                 <div className="half-spinner"></div>
             </div>
         );

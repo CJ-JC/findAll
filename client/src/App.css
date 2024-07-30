@@ -524,16 +524,10 @@ textarea {
 .spinner {
     width: 300px;
     height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-}
-
-.spinner span {
-    font-size: 2rem;
-    animation: fade 1s linear 0s infinite;
-    padding-right: 1rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .half-spinner {

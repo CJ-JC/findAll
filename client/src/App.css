@@ -10,7 +10,6 @@ body {
     font-family: "Open Sans", sans-serif !important;
     background-color: #000 !important;
     font-weight: 300 !important;
-    font-weight: 300 !important;
 }
 
 h1,
@@ -527,6 +526,7 @@ textarea {
     position: absolute;
     top: 50%;
     left: 50%;
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
 

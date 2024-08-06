@@ -28,9 +28,9 @@ const corsOptions = {
 const db = mysql.createConnection({
     host: "db5016156987.hosting-data.io",
     user: "dbu161151",
-    password: "fawwyb-xozwyz-9sixcU",
+    password: "8QazP208HSgQ7bcPfwvN",
     port: 3306,
-    database: "dbs13152715",
+    database: "b0uq9hqybv7bqqoiyg75",
 });
 
 const PORT = process.env.PORT || "https://digital-discount-server.vercel.app";

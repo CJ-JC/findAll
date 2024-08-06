@@ -27,7 +27,7 @@ const corsOptions = {
 
 const db = mysql.createConnection({
     host: "db5016156987.hosting-data.io",
-    user: "dbu161151",
+    user: "uyf9wearp2cjslug",
     password: "8QazP208HSgQ7bcPfwvN",
     port: 3306,
     database: "b0uq9hqybv7bqqoiyg75",

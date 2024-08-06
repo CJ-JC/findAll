@@ -26,7 +26,7 @@ const corsOptions = {
 };
 
 const db = mysql.createConnection({
-    host: "db5016156987.hosting-data.io",
+    host: "b0uq9hqybv7bqqoiyg75-mysql.services.clever-cloud.com",
     user: "uyf9wearp2cjslug",
     password: "8QazP208HSgQ7bcPfwvN",
     port: 3306,

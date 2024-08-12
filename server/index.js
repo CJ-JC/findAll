@@ -26,11 +26,11 @@ const corsOptions = {
 };
 
 const db = mysql.createConnection({
-    host: "db5016156987.hosting-data.io",
+    host: "b0uq9hqybv7bqqoiyg75-mysql.services.clever-cloud.com",
     user: "uyf9wearp2cjslug",
-    password: "Password@2024",
+    password: "8QazP208HSgQ7bcPfwvN",
     port: 3306,
-    database: "dbs13152715",
+    database: "b0uq9hqybv7bqqoiyg75",
 });
 
 const PORT = process.env.PORT || "https://digital-discount-server.vercel.app";

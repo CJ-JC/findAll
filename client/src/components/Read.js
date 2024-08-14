@@ -18,7 +18,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
 
     const { id } = useParams();
 
-    const baseUrl = "https://digital-discount-server.vercel.app";
+    const baseUrl = "http://localhost:8000";
 
     useEffect(() => {
         axios
@@ -69,7 +69,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                     <div className="col-lg-8">
                         <div className="card p-4">
                             <h2>{product.title}</h2>
-                            <img src={`https://digital-discount-server.vercel.app/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%", opacity: ".6" }} />
+                            <img src={`http://localhost:8000/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%", opacity: ".6" }} />
                             <p>{product.description}</p>
                             <br />
                             <h6>Garantie 1 mois. En cas de problème dans un délai d'un mois, vous recevrez un remplacement gratuit.</h6>
@@ -90,12 +90,12 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                                 {option.option_name} - {option.option_price}€
                             </label>
                         ))}
-                        <div className="card mx-0 mb-3 p-3">
+                        <div className="card mx-0 mb-3 p-3 bg-light">
                             <div className="content">
                                 <h6>Délai de livraison</h6>
                                 Dans les 2h
                             </div>
-                            <div className="content">
+                            <div className="content mb-4">
                                 <h6>Quantité</h6>
                                 <div className="quantity">
                                     <button className="minus" onClick={() => updateQuantity(-1)}>
@@ -113,7 +113,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                                 <Paypal key={`${product.id}-${totalPrice}`} product={product} totalPrice={totalPrice} quantity={quantity} selectedOptions={selectedOptions} />
                             ) : (
                                 <button
-                                    className="btn btn-light fw-bold w-auto mt-4 mx-auto"
+                                    className="btn btn-dark w-auto mt-4 mx-auto"
                                     onClick={() => {
                                         setCheckOut(true);
                                     }}

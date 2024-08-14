@@ -12,7 +12,7 @@ const Home = ({ paragraphRef }) => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [activeCategory, setActiveCategory] = useState("all");
-    const baseUrl = `https://digital-discount-server.vercel.app`;
+    const baseUrl = `http://localhost:8000`;
 
     useEffect(() => {
         axios
@@ -87,7 +87,7 @@ const Home = ({ paragraphRef }) => {
                             <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 my-3 list_product px-0" key={product.id}>
                                 <div className="card">
                                     <a href={`/product/${product.id}`}>
-                                        <img className="card-img-top" src={`https://digital-discount-server.vercel.app/upload/${product.image}`} alt={product.title} />
+                                        <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
                                         <div className="card-body">
                                             <h6 className="card-title">{product.title}</h6>
                                             {/* <p className="card-text">Valable : 1 an</p> */}

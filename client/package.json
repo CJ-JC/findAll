@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "https://www.digital-discount.co/",
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@ckeditor/ckeditor5-build-classic": "^41.3.1",

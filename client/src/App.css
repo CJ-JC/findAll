@@ -33,7 +33,7 @@ nav {
     position: sticky !important;
     background-color: transparent;
     transition: 0.5s ease;
-    z-index: 100;
+    z-index: 1000;
 }
 
 .navbar {
@@ -321,7 +321,7 @@ label.product.selected {
 }
 
 .content h6 {
-    color: #bfbfbf !important;
+    color: #000 !important;
 }
 
 ol li {
@@ -344,12 +344,11 @@ ol li {
     width: 150px;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 13px #0000001a;
 }
 
 .quantity button {
     background-color: #4b4c4d;
-    border-radius: 30px;
     color: #fff;
     border: none;
     font-size: 20px;
@@ -360,7 +359,7 @@ ol li {
 }
 
 .quantity button:hover {
-    background-color: #fff;
+    background-color: #949494;
     color: #000;
 }
 

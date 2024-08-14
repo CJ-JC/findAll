@@ -12,7 +12,7 @@ const Login = ({ setIsLoggedIn }) => {
 
     const [error, setError] = useState("");
 
-    const baseUrl = "https://digital-discount-server.vercel.app";
+    const baseUrl = "http://localhost:8000";
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });

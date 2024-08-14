@@ -19,21 +19,15 @@ app.use(cors());
 env.config();
 app.use(bodyParser.json());
 
-const corsOptions = {
-    origin: "*",
-    credentials: true,
-    optionSuccessStatus: 200,
-};
-
 const db = mysql.createConnection({
-    host: "b0uq9hqybv7bqqoiyg75-mysql.services.clever-cloud.com",
-    user: "uyf9wearp2cjslug",
-    password: "8QazP208HSgQ7bcPfwvN",
+    host: "localhost",
+    user: "digital-discount",
+    password: "digital-discount",
     port: 3306,
-    database: "b0uq9hqybv7bqqoiyg75",
+    database: "digigwqj_digital-discount",
 });
 
-const PORT = process.env.PORT || "https://digital-discount-server.vercel.app";
+const PORT = process.env.PORT || "http://localhost:8000";
 
 app.use("/email", emailRoutes);
 

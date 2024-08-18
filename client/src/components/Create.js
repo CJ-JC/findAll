@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Modal } from "@mui/material";
-import { Navigate, useNavigate } from "react-router-dom";
-import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 
 const Create = ({ handleClose, handleOpen, open, style }) => {
     const [product, setProduct] = useState({
@@ -20,7 +19,7 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8000/categories")
+            .get("http://localhost:8000/api/categories")
             .then((res) => {
                 setCategories(res.data);
             })
@@ -68,12 +67,16 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
         });
 
         axios
-            .post("http://localhost:8000/create", formData)
+            .post("http://localhost:8000/api/create", formData)
             .then((res) => {
                 setProduct(res.data);
                 navigate("/");
             })
             .catch((err) => setProduct(err));
+    };
+
+    const handleDeleteOption = (index) => {
+        setOptions((prevOptions) => prevOptions.filter((_, i) => i !== index));
     };
 
     return (
@@ -117,9 +120,12 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
                                         <label htmlFor={`${option.option_name}`}>Nom de l'option</label>
                                         <input className="form-control" type="text" onChange={(e) => handleOptionChange(e, index)} name={`option_name_${index}`} placeholder="Nom de l'option" />
                                     </div>
-                                    <div className="col-lg-6 col-md-12 my-3">
+                                    <div className="col-lg-5 col-md-5 my-3">
                                         <label htmlFor={`${option.option_price}`}>Prix de l'option</label>
                                         <input className="form-control" type="text" onChange={(e) => handleOptionChange(e, index)} name={`option_price_${index}`} placeholder="Prix de l'option" />
+                                    </div>
+                                    <div className="col-lg-1 col-md-1 m-auto">
+                                        <i className="fa fa-trash" aria-hidden="true" onClick={() => handleDeleteOption(index)}></i>
                                     </div>
                                 </div>
                             ))}
@@ -132,7 +138,12 @@ const Create = ({ handleClose, handleOpen, open, style }) => {
                                     Ajouter une option
                                 </button>
                             </div>
-                            <button className="btn btn-success w-auto">Créer le produit</button>
+                            <div className="text-center">
+                                <button className="btn btn-success w-auto mx-2">Créer le produit</button>
+                                <a href="/home/admin" className="btn btn-danger w-auto">
+                                    Annuler
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </Box>

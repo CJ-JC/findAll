@@ -10,12 +10,12 @@ const style = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "70%",
-    bgcolor: "rgb(17 20 29)",
+    width: "90%",
+    bgcolor: "#000",
     boxShadow: 24,
     color: "white",
-    border: "1px solid #fff",
-    p: 4,
+    border: "1px solid #bfbfbf",
+    p: 2,
 };
 
 const HomeAdmin = () => {
@@ -29,7 +29,7 @@ const HomeAdmin = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8000/")
+            .get("http://localhost:8000/api/")
             .then((result) => setProducts(result.data))
             .catch((err) => setProducts(err));
     }, []);
@@ -41,7 +41,7 @@ const HomeAdmin = () => {
     const confirmDeleteAction = () => {
         if (confirmDelete) {
             axios
-                .delete(`http://localhost:8000/delete/${confirmDelete}`)
+                .delete(`http://localhost:8000/api/delete/${confirmDelete}`)
                 .then((result) => {
                     setProducts(products.filter((product) => product.id !== confirmDelete));
                     setConfirmDelete(null); // Réinitialiser l'état après suppression
@@ -54,15 +54,15 @@ const HomeAdmin = () => {
         <>
             <div className="container my-5">
                 <div className="d-flex justify-content-between m-4">
-                    <h1>Liste des produits</h1>
+                    <h2>Liste des produits</h2>
                     <Create handleClose={handleClose} handleOpen={handleOpen} open={open} setOpen={setOpen} style={style} />
                 </div>
                 <hr className="text-light w-75 mx-auto" />
-                <div className="row justify-content-center">
+                <div className="justify-content-center row row-cols-1 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
                     {products.map((product) => (
-                        <div className="col-xl-3 col-lg-3 col-md-4 col-sm-12 my-3 px-0 list_product" key={product.id}>
+                        <div className="col" key={product.id}>
                             <div className="card" style={{ height: "280px" }}>
-                                <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
+                                <img className="card-img-top" src={`http://localhost:8000/api/upload/${product.image}`} alt={product.title} style={{ objectFit: "contain" }} />
                                 <div className="icon">
                                     <div className="row">
                                         <div className="col-4">

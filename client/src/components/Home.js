@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 import axios from "axios";
-import Read from "./Read";
 import Footer from "./Footer";
 import Carousel from "./Carousel";
 import Contact from "./Contact";
-import Select from "react-select";
 
 const Home = ({ paragraphRef }) => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [activeCategory, setActiveCategory] = useState("all");
-    const baseUrl = `http://localhost:8000`;
+    const [loading, setLoading] = useState(true);
+    const baseUrl = `http://localhost:8000/api`;
 
     useEffect(() => {
         axios
@@ -36,10 +34,22 @@ const Home = ({ paragraphRef }) => {
             .catch((err) => console.error("Error fetching products by category:", err));
     };
 
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="spinner">
+                <div className="half-spinner"></div>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className="home-page">
-                <h1 className="container hs-item-title">Des heures de divertissement sans compter, à prix mini avec ÉcoTunes</h1>
+                <h1 className="container hs-item-title">Des heures de divertissement sans compter, à prix mini avec Digital-discount</h1>
                 <Carousel />
                 <div className="scrolldown">
                     <span></span>
@@ -52,7 +62,7 @@ const Home = ({ paragraphRef }) => {
                     <div className="message-info__content">
                         <span style={{ color: "#fff", fontWeight: 400 }}>
                             Il se peut que notre site soit bloqué 🚫 en France !<br />
-                            Utilisez un VPN ou changez vos DNS pour ne plus être bloqué par vos FAI »
+                            Utilisez un VPN ou changez vos DNS pour ne plus être bloqué par vos FAI »{" "}
                         </span>
                         <a href="https://changetondns.fr/" style={{ color: "#fff", fontWeight: 400 }} rel="noreferrer" target="_blank">
                             comment changer mes DNS ?
@@ -80,14 +90,13 @@ const Home = ({ paragraphRef }) => {
                             </button>
                         ))}
                 </div>
-
-                <div className="row my-2 justify-content-center">
+                <div className="justify-content-center row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
                     {products.length > 0 ? (
                         products.map((product) => (
-                            <div className="col-xl-3 col-lg-3 col-md-6 col-sm-12 my-3 list_product px-0" key={product.id}>
-                                <div className="card">
+                            <div className="col" key={product.id}>
+                                <div className="card" style={{ minHeight: "280px" }}>
                                     <a href={`/product/${product.id}`}>
-                                        <img className="card-img-top" src={`http://localhost:8000/upload/${product.image}`} alt={product.title} />
+                                        <img className="card-img-top" src={`http://localhost:8000/api/upload/${product.image}`} alt={product.title} />
                                         <div className="card-body">
                                             <h6 className="card-title">{product.title}</h6>
                                             {/* <p className="card-text">Valable : 1 an</p> */}
@@ -97,7 +106,7 @@ const Home = ({ paragraphRef }) => {
                                                 </div>
                                             )}
                                             {product.real_price ? (
-                                                <div>
+                                                <div style={{ fontSize: "14px" }}>
                                                     <p className="m-0">soit {product.price_per_month}€ / mois</p>
                                                     <strike>
                                                         {product.real_price}€ sur {product.title}
@@ -128,7 +137,7 @@ const Home = ({ paragraphRef }) => {
                     </div>
                 </div>
             </div>
-            <a href="https://t.me/ecotunes" target="_blank" className="telegram" title="Telegram">
+            <a href="https://t.me/discountdigital" target="_blank" className="telegram" title="Telegram">
                 <i className="fa fa-paper-plane text-light"></i>
             </a>
             <Footer />

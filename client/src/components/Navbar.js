@@ -16,7 +16,7 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn, paragraphRef }) => {
         <nav className="navbar navbar-expand-lg p-0">
             <div className="container">
                 <NavLink className="navbar-brand" to="/">
-                    <img className="logo" src="../img/logo.png" alt="" />
+                    <img className="logo" src="../img/logo.png" alt="logo" />
                 </NavLink>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>

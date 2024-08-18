@@ -21,17 +21,17 @@ app.use(bodyParser.json());
 
 const db = mysql.createConnection({
     host: "localhost",
-    user: "digital-discount",
-    password: "digital-discount",
-    port: 3306,
-    database: "digigwqj_digital-discount",
+    user: "root",
+    password: "root",
+    port: 8889,
+    database: "finddigital",
 });
 
-const PORT = process.env.PORT || "http://localhost:8000";
+const PORT = process.env.PORT || "http://localhost:8000/api";
 
-app.use("/email", emailRoutes);
+app.use("/api/email", emailRoutes);
 
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
     const sql = "SELECT * FROM product";
 
     db.query(sql, (err, products) => {
@@ -63,7 +63,7 @@ app.get("/", (req, res) => {
     });
 });
 
-app.get("/categories", (req, res) => {
+app.get("/api/categories", (req, res) => {
     const sql = "SELECT * FROM category";
 
     db.query(sql, (err, categories) => {
@@ -75,7 +75,7 @@ app.get("/categories", (req, res) => {
     });
 });
 
-app.get("/products/:categoryId", (req, res) => {
+app.get("/api/products/:categoryId", (req, res) => {
     const categoryId = req.params.categoryId;
     let sql;
     let values;
@@ -134,7 +134,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post("/create", upload.single("image"), (req, res) => {
+app.post("/api/create", upload.single("image"), (req, res) => {
     const { title, real_price, price_per_month, description, category_id } = req.body;
     const image = req.file.filename;
 
@@ -181,7 +181,7 @@ app.post("/create", upload.single("image"), (req, res) => {
     });
 });
 
-app.get("/:id", (req, res) => {
+app.get("/api/:id", (req, res) => {
     const sql = "SELECT * FROM product WHERE id =?";
     const id = req.params.id;
 
@@ -193,10 +193,10 @@ app.get("/:id", (req, res) => {
     });
 });
 
-app.get("/options/:id", (req, res) => {
+app.get("/api/options/:id", (req, res) => {
     const productId = req.params.id;
 
-    const optionsSql = "SELECT type.option_name, type.option_price FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
+    const optionsSql = "SELECT type.id, type.option_name, type.option_price FROM type INNER JOIN product_type ON type.id = product_type.type_id WHERE product_type.product_id = ?";
     db.query(optionsSql, [productId], (err, options) => {
         if (err) {
             return res.json({ Message: "Error fetching options", Error: err });
@@ -205,7 +205,29 @@ app.get("/options/:id", (req, res) => {
     });
 });
 
-app.put("/update/:id", upload.single("image"), (req, res) => {
+app.delete("/api/options/:id", (req, res) => {
+    const optionId = req.params.id;
+
+    const deleteProductTypeSql = "DELETE FROM product_type WHERE type_id = ?";
+    const deleteTypeSql = "DELETE FROM type WHERE id = ?";
+
+    db.query(deleteProductTypeSql, [optionId], (err, result) => {
+        if (err) {
+            return res.json({ success: false, message: "Erreur lors de la suppression de l'association du type", error: err });
+        }
+
+        // Ensuite, supprimer l'option de la table `type`
+        db.query(deleteTypeSql, [optionId], (err, result) => {
+            if (err) {
+                return res.json({ success: false, message: "Erreur lors de la suppression de l'option", error: err });
+            }
+
+            return res.json({ success: true, message: "Option supprimée avec succès" });
+        });
+    });
+});
+
+app.put("/api/update/:id", upload.single("image"), (req, res) => {
     const id = req.params.id;
     const { title, real_price, price_per_month, description, category_id } = req.body;
     let image = req.file ? req.file.filename : null;
@@ -315,7 +337,7 @@ app.put("/update/:id", upload.single("image"), (req, res) => {
     });
 });
 
-app.delete("/delete/:id", (req, res) => {
+app.delete("/api/delete/:id", (req, res) => {
     const productId = req.params.id;
 
     // Commencer une transaction
@@ -420,7 +442,7 @@ app.delete("/delete/:id", (req, res) => {
 //     }
 // });
 
-app.get("/product/:id", (req, res) => {
+app.get("/api/product/:id", (req, res) => {
     const sql = "SELECT * FROM product WHERE id =?";
     const id = req.params.id;
     db.query(sql, [id], (err, products) => {
@@ -453,9 +475,10 @@ app.get("/product/:id", (req, res) => {
 });
 
 let emailsSent = {};
-app.post("/success/payment", async (req, res) => {
+app.post("/api/success/payment", async (req, res) => {
     try {
-        const userEmail = "donypaul95@gmail.com";
+        // const userEmail = "donypaul95@gmail.com";
+        const userEmail = req.body.email;
         const description = req.body.description;
 
         // Vérifiez si le courriel a déjà été envoyé
@@ -475,7 +498,7 @@ app.post("/success/payment", async (req, res) => {
                 port: process.env.SMTP_PORT,
                 auth: {
                     user: "lornajules2@gmail.com",
-                    pass: "sopopxlrrkrsbudy",
+                    pass: "otkfkrwfqlcpfpbi",
                 },
             })
         );
@@ -491,7 +514,7 @@ app.post("/success/payment", async (req, res) => {
             <p>Merci d'avoir choisi notre service !</p>
             <p>Si vous avez des questions ou avez besoin d'assistance, n'hésitez pas à nous contacter.</p>
             <p>Cordialement,</p>
-            <p>Votre équipe ÉcoTunes</p>
+            <p>Votre équipe Digital-discount</p>
         `,
         };
 
@@ -580,7 +603,7 @@ app.post("/success/payment", async (req, res) => {
 const jwt = require("jsonwebtoken");
 
 // Générer un token JWT lors de la connexion réussie
-app.post("/login", (req, res) => {
+app.post("/api/login", (req, res) => {
     const sql = "SELECT * FROM login WHERE email =?";
     const values = [req.body.email];
 
@@ -607,7 +630,7 @@ app.post("/login", (req, res) => {
 });
 
 // Endpoint pour la déconnexion
-app.post("/logout", (req, res) => {
+app.post("/api/logout", (req, res) => {
     res.json({ Message: "Logged out successfully" });
 });
 

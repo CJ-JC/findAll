@@ -12,7 +12,7 @@ var transporter = nodemailer.createTransport(
         port: process.env.SMTP_PORT,
         auth: {
             user: "lornajules2@gmail.com",
-            pass: "sopopxlrrkrsbudy",
+            pass: "otkfkrwfqlcpfpbi",
         },
     })
 );

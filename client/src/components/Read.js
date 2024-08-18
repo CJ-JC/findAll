@@ -8,7 +8,6 @@ import Politique from "./Politique";
 import Paypal from "./Paypal";
 
 const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
-    const [open, setOpen] = useState(false);
     const [quantity, setQuantity] = useState(1);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [defaultOption, setDefaultOption] = useState(null);
@@ -18,7 +17,7 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
 
     const { id } = useParams();
 
-    const baseUrl = "http://localhost:8000";
+    const baseUrl = "http://localhost:8000/api";
 
     useEffect(() => {
         axios
@@ -66,20 +65,14 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
         <>
             <div className="container mt-5">
                 <div className="row">
-                    <div className="col-lg-8">
+                    <div className="col-lg-8 mb-4">
                         <div className="card p-4">
                             <h2>{product.title}</h2>
-                            <img src={`http://localhost:8000/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%", opacity: ".6" }} />
+                            <img src={`http://localhost:8000/api/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%", opacity: ".6" }} />
                             <p>{product.description}</p>
                             <br />
                             <h6>Garantie 1 mois. En cas de problème dans un délai d'un mois, vous recevrez un remplacement gratuit.</h6>
                             <p className="card-text">Tous nos services sont valables 12 mois</p>
-                        </div>
-                        <div className="card my-4 p-4">
-                            <Politique />
-                            <a href="https://t.me/ecotunes" target="_blank" className="telegram" title="Telegram">
-                                <i className="fa fa-paper-plane text-light"></i>
-                            </a>
                         </div>
                     </div>
                     <div className="col-lg-4">
@@ -121,6 +114,14 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                                     Payer {totalPrice}€
                                 </button>
                             )}
+                        </div>
+                    </div>
+                    <div className="col-lg-8">
+                        <div className="card my-4 p-4">
+                            <Politique />
+                            <a href="https://t.me/ecotunes" target="_blank" className="telegram" title="Telegram">
+                                <i className="fa fa-paper-plane text-light"></i>
+                            </a>
                         </div>
                     </div>
                 </div>

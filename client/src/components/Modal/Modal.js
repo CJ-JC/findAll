@@ -16,11 +16,11 @@ const Modalopen = ({ product }) => {
         width: "70%",
         maxHeight: "800px",
         overflow: "auto",
-        bgcolor: "rgb(17 20 29)",
+        bgcolor: "#000",
         boxShadow: 24,
         color: "white",
-        border: "1px solid #fff",
-        p: 4,
+        border: "1px solid #bfbfbf",
+        p: 2,
     };
     return (
         <>

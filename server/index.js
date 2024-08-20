@@ -27,7 +27,7 @@ const db = mysql.createConnection({
     database: "finddigital",
 });
 
-const PORT = process.env.PORT || "http://localhost:8000/api";
+const PORT = process.env.PORT || "https://digital-discount.co/api";
 
 app.use("/api/email", emailRoutes);
 

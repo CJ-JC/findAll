@@ -12,7 +12,7 @@ const Login = ({ setIsLoggedIn }) => {
 
     const [error, setError] = useState("");
 
-    const baseUrl = "http://localhost:8000/api";
+    const baseUrl = "https://digital-discount.co/api";
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value });

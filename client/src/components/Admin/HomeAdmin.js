@@ -29,7 +29,7 @@ const HomeAdmin = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8000/api/")
+            .get("https://digital-discount.co/api/")
             .then((result) => setProducts(result.data))
             .catch((err) => setProducts(err));
     }, []);
@@ -41,7 +41,7 @@ const HomeAdmin = () => {
     const confirmDeleteAction = () => {
         if (confirmDelete) {
             axios
-                .delete(`http://localhost:8000/api/delete/${confirmDelete}`)
+                .delete(`https://digital-discount.co/api/delete/${confirmDelete}`)
                 .then((result) => {
                     setProducts(products.filter((product) => product.id !== confirmDelete));
                     setConfirmDelete(null); // Réinitialiser l'état après suppression
@@ -62,7 +62,7 @@ const HomeAdmin = () => {
                     {products.map((product) => (
                         <div className="col" key={product.id}>
                             <div className="card" style={{ height: "280px" }}>
-                                <img className="card-img-top" src={`http://localhost:8000/api/upload/${product.image}`} alt={product.title} style={{ objectFit: "contain" }} />
+                                <img className="card-img-top" src={`https://digital-discount.co/api/upload/${product.image}`} alt={product.title} style={{ objectFit: "contain" }} />
                                 <div className="icon">
                                     <div className="row">
                                         <div className="col-4">
@@ -96,7 +96,7 @@ const HomeAdmin = () => {
                                     {product.real_price ? (
                                         <div>
                                             <p className="m-0">soit {product.price_per_month}€ / mois</p>
-                                            <p className="m-0">{product.real_price}€</p>
+                                            <p className="m-0">{product.real_price}</p>
                                         </div>
                                     ) : (
                                         <p className="m-0">soit {product.price_per_month}€ / mois</p>

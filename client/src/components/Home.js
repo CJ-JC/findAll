@@ -10,7 +10,7 @@ const Home = ({ paragraphRef }) => {
     const [categories, setCategories] = useState([]);
     const [activeCategory, setActiveCategory] = useState("all");
     const [loading, setLoading] = useState(true);
-    const baseUrl = `http://localhost:8000/api`;
+    const baseUrl = `https://digital-discount.co/api`;
 
     useEffect(() => {
         axios
@@ -57,7 +57,7 @@ const Home = ({ paragraphRef }) => {
                     <span></span>
                 </div>
             </div>
-            <div className="container" style={{ marginTop: "6em", marginBottom: "6em" }}>
+            <div className="container">
                 <div className="message-info">
                     <div className="message-info__content">
                         <span style={{ color: "#fff", fontWeight: 400 }}>
@@ -76,8 +76,9 @@ const Home = ({ paragraphRef }) => {
                 </div>
                 <h2>Les offres qui font tourner les têtes sans les tordre !</h2>
                 <div className="hs-item">
-                    <p>De Spotify à YouTube Premium en passant par Netflix et bien d'autres encore, nous avons rassemblé pour vous les meilleurs abonnements à des tarifs imbattables.</p>
-                    <p>Fini les compromis entre qualité et prix, avec nous, vous pouvez tout avoir, et à moindre coût !</p>
+                    <p>
+                        De Spotify à YouTube Premium en passant par Netflix et bien d'autres encore, nous avons rassemblé pour vous les meilleurs abonnements à des tarifs imbattables. <br /> Fini les compromis entre qualité et prix, avec nous, vous pouvez tout avoir, et à moindre coût !
+                    </p>
                 </div>
                 <div className="buttons">
                     <button className={`button ${activeCategory === "all" ? "active" : ""}`} onClick={() => handleCategoryClick("all")}>
@@ -96,7 +97,7 @@ const Home = ({ paragraphRef }) => {
                             <div className="col" key={product.id}>
                                 <div className="card" style={{ minHeight: "280px" }}>
                                     <a href={`/product/${product.id}`}>
-                                        <img className="card-img-top" src={`http://localhost:8000/api/upload/${product.image}`} alt={product.title} />
+                                        <img className="card-img-top" src={`https://digital-discount.co/api/upload/${product.image}`} alt={product.title} />
                                         <div className="card-body">
                                             <h6 className="card-title">{product.title}</h6>
                                             {/* <p className="card-text">Valable : 1 an</p> */}
@@ -108,9 +109,7 @@ const Home = ({ paragraphRef }) => {
                                             {product.real_price ? (
                                                 <div style={{ fontSize: "14px" }}>
                                                     <p className="m-0">soit {product.price_per_month}€ / mois</p>
-                                                    <strike>
-                                                        {product.real_price}€ sur {product.title}
-                                                    </strike>
+                                                    <strike>{product.real_price}</strike>
                                                 </div>
                                             ) : (
                                                 <p className="m-0">soit {product.price_per_month}€ / mois</p>

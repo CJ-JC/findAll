@@ -33,8 +33,6 @@ ul > li {
     white-space: pre-line;
 }
 nav {
-    top: 0;
-    position: sticky !important;
     background-color: transparent;
     transition: 0.5s ease;
     z-index: 1000;
@@ -78,7 +76,6 @@ nav li a:hover {
 
 .home-page {
     position: relative;
-    height: 550px;
     width: 100%;
     display: flex;
     align-items: center;
@@ -401,10 +398,14 @@ label {
     color: #fff;
 }
 
-textarea {
-    height: 150px;
-    line-height: 150%;
+.ql-editor {
+    height: 150px !important;
     resize: vertical;
+}
+
+.ql-editor p {
+    color: #000;
+    font-size: 15px;
 }
 
 .fa-trash {

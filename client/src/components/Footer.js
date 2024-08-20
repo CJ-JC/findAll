@@ -1,6 +1,8 @@
 import React from "react";
 
 const Footer = () => {
+    const year = new Date();
+
     return (
         <div className="container footer">
             <div className="footer-basic">
@@ -24,7 +26,7 @@ const Footer = () => {
                             <a href="/politique">Conditions</a>
                         </li>
                     </ul>
-                    <p className="copyright">ÉcoTunes © 2024</p>
+                    <p className="copyright">Digital Discount © {year.getFullYear()}</p>
                 </footer>
             </div>
         </div>

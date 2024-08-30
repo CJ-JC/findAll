@@ -14,7 +14,7 @@ const Footer = () => {
                         <a href="#">
                             <i className="icon ion-social-snapchat"></i>
                         </a>
-                        <a href="https://t.me/discountdigital" target="_blank">
+                        <a href="https://t.me/digitaldiscount1" target="_blank">
                             <i className="fa fa-paper-plane"></i>
                         </a>
                     </div>

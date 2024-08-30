@@ -398,13 +398,10 @@ label {
     color: #fff;
 }
 
-.ql-editor {
-    height: 150px !important;
-    resize: vertical;
+.ql-container.ql-disabled .ql-tooltip {
+    display: none;
 }
-
 .ql-editor p {
-    color: #000;
     font-size: 15px;
 }
 

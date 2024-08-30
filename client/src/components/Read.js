@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Contact from "./Contact";
 import Footer from "./Footer";
-import Politique from "./Politique";
 import Paypal from "./Paypal";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import PolitiqueRead from "./Politique-read";
 
 const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
     const [quantity, setQuantity] = useState(1);
@@ -67,9 +69,9 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                 <div className="row">
                     <div className="col-lg-8 mb-4">
                         <div className="card p-4">
-                            <h2>{product.title}</h2>
-                            <img src={`https://digital-discount.co/api/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%", opacity: ".6" }} />
-                            <p>{product.description}</p>
+                            <h3>{product.title}</h3>
+                            <img src={`https://digital-discount.co/api/upload/${product.image}`} alt={product.image} style={{ margin: "auto", width: "60%", objectFit: "cover", height: "100%" }} />
+                            <ReactQuill value={product.description} readOnly={true} theme="bubble" />
                             <br />
                             <h6>Garantie 1 mois. En cas de problème dans un délai d'un mois, vous recevrez un remplacement gratuit.</h6>
                             <p className="card-text">Tous nos services sont valables 12 mois</p>
@@ -118,8 +120,8 @@ const Read = ({ handleChange, handleSubmit, alertMessage, paragraphRef }) => {
                     </div>
                     <div className="col-lg-8">
                         <div className="card my-4 p-4">
-                            <Politique />
-                            <a href="https://t.me/ecotunes" target="_blank" className="telegram" title="Telegram">
+                            <PolitiqueRead />
+                            <a href="https://t.me/digitaldiscount1" target="_blank" className="telegram" title="Telegram">
                                 <i className="fa fa-paper-plane text-light"></i>
                             </a>
                         </div>

@@ -189,7 +189,7 @@ const UpdateAdmin = () => {
                         ))}
                         <div className="col-12 my-3">
                             <label htmlFor="description">Description</label>
-                            <ReactQuill theme="snow" className="bg-light" id="description" value={description} onChange={setDescription} />
+                            <ReactQuill theme="snow" id="description" value={description} onChange={setDescription} />
                         </div>
                         <div className="col-12 my-3">
                             <button type="button" className="btn btn-secondary" onClick={handleAddOption}>

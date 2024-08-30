@@ -136,7 +136,7 @@ const Home = ({ paragraphRef }) => {
                     </div>
                 </div>
             </div>
-            <a href="https://t.me/discountdigital" target="_blank" className="telegram" title="Telegram">
+            <a href="https://t.me/digitaldiscount1" target="_blank" className="telegram" title="Telegram">
                 <i className="fa fa-paper-plane text-light"></i>
             </a>
             <Footer />
